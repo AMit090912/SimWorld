@@ -62,7 +62,8 @@ export default function CityMap({
       const cx = pad + (x + 0.5) * cell;
       const cy = pad + (y + 0.5) * cell;
       const size = cell * 0.56;
-      const accent = (x * 5 + y * 3) % 4 === 0;
+      const park = (x * 7 + y * 11) % 19 === 0;
+      const inset = size * 0.13;
       blocks.push(
         <g key={`b-${x}-${y}`}>
           <rect
@@ -71,28 +72,49 @@ export default function CityMap({
             width={size}
             height={size}
             rx={compact ? 3 : 5}
-            fill={accent ? PALETTE.blockAccent : PALETTE.block}
-            stroke={PALETTE.blockEdge}
+            fill={park ? "rgba(56,227,171,0.07)" : PALETTE.block}
+            stroke={park ? "rgba(56,227,171,0.22)" : PALETTE.blockEdge}
             strokeWidth={1}
           />
-          <rect
-            x={cx - size / 2 + 5}
-            y={cy - size / 2 + 5}
-            width={size - 10}
-            height={(size - 10) * 0.34}
-            rx={2}
-            fill="rgba(255,255,255,0.022)"
-          />
-          {!compact && (x + y) % 3 === 0 ? (
-            <rect
-              x={cx + size / 2 - 15}
-              y={cy + size / 2 - 15}
-              width={7}
-              height={7}
-              rx={1}
-              fill="rgba(56,227,171,0.18)"
-            />
-          ) : null}
+          {park ? (
+            !compact ? (
+              <>
+                <circle cx={cx - 5} cy={cy + 1} r={6} fill="rgba(56,227,171,0.13)" stroke="rgba(56,227,171,0.3)" strokeWidth={0.8} />
+                <circle cx={cx + 7} cy={cy - 6} r={4.5} fill="rgba(56,227,171,0.1)" stroke="rgba(56,227,171,0.24)" strokeWidth={0.8} />
+              </>
+            ) : null
+          ) : (
+            <>
+              <rect
+                x={cx - size / 2 + inset}
+                y={cy - size / 2 + inset}
+                width={size - inset * 2}
+                height={size - inset * 2}
+                rx={2.5}
+                fill="#111e29"
+                stroke="rgba(255,255,255,0.035)"
+                strokeWidth={0.8}
+              />
+              <rect
+                x={cx - size / 2 + inset + 4}
+                y={cy - size / 2 + inset + 4}
+                width={(size - inset * 2) * 0.42}
+                height={5}
+                rx={1}
+                fill="rgba(255,255,255,0.035)"
+              />
+              {!compact ? (
+                <rect
+                  x={cx + size / 2 - inset - 9}
+                  y={cy + size / 2 - inset - 9}
+                  width={5}
+                  height={5}
+                  rx={1}
+                  fill="rgba(56,227,171,0.16)"
+                />
+              ) : null}
+            </>
+          )}
         </g>,
       );
     }
@@ -206,13 +228,30 @@ export default function CityMap({
           const tone = delivered ? (late ? PALETTE.coral : PALETTE.mint) : PALETTE.amber;
           const deadline = Math.min(...packages.map((pkg) => pkg.deadline_min));
           const label = packages[0].dest_label;
-          const rightSide = Number(node.split(",")[0]) < state.grid - 1;
-          const labelX = x + (rightSide ? 15 : -15);
-          const anchor = rightSide ? "start" : "end";
+          const shortLabel = label.length > 18 ? `${label.slice(0, 17)}...` : label;
+          const pillW = Math.min(132, Math.max(70, shortLabel.length * 5.6 + 14));
+          const [gx, gy] = node.split(",").map((part) => Number(part));
+          const onRight = gx < state.grid / 2;
+          const pillX = Math.max(
+            pad / 2,
+            Math.min(width - pillW - pad / 2, onRight ? x + 14 : x - 14 - pillW),
+          );
+          const pillAbove = (gx + gy * 2) % 3 !== 1;
+          const pillY = pillAbove ? y - 19 : y + 7;
+          const titleY = pillAbove ? y - 9 : y + 17;
+          const dueY = pillAbove ? y - 1 : y + 25;
           return (
             <g key={`d-${node}`}>
-              <circle cx={x} cy={y} r={compact ? 8 : 10} fill="#0a141d" stroke={tone} strokeWidth={1.6} />
-              <circle cx={x} cy={y} r={compact ? 2 : 2.6} fill={tone} />
+              <circle
+                cx={x}
+                cy={y}
+                r={compact ? 7 : delivered ? 7 : 9}
+                fill="#0a141d"
+                stroke={tone}
+                strokeWidth={delivered ? 1 : 1.8}
+                opacity={delivered ? 0.55 : 1}
+              />
+              <circle cx={x} cy={y} r={compact ? 2 : delivered ? 2 : 2.6} fill={tone} opacity={delivered ? 0.6 : 1} />
               {packages.length > 1 ? (
                 <>
                   <circle cx={x + 7} cy={y - 7} r={5} fill="#0a141d" stroke={tone} strokeWidth={1} />
@@ -221,12 +260,22 @@ export default function CityMap({
                   </text>
                 </>
               ) : null}
-              {!compact ? (
+              {!compact && !delivered ? (
                 <>
-                  <text x={labelX} y={y - 2} textAnchor={anchor} fill="#cfe0ee" fontSize={9.4} fontFamily="ui-sans-serif" fontWeight={600}>
-                    {label.length > 17 ? `${label.slice(0, 16)}…` : label}
+                  <rect
+                    x={pillX}
+                    y={pillY}
+                    width={pillW}
+                    height={27}
+                    rx={4}
+                    fill="rgba(6,12,18,0.88)"
+                    stroke={tone}
+                    strokeOpacity={0.3}
+                  />
+                  <text x={pillX + 6} y={titleY} fill="#dceaf5" fontSize={9.6} fontFamily="ui-sans-serif" fontWeight={600}>
+                    {shortLabel}
                   </text>
-                  <text x={labelX} y={y + 8} textAnchor={anchor} fill={tone} fontSize={7.6} fontFamily="ui-monospace">
+                  <text x={pillX + 6} y={dueY} fill={tone} fontSize={7.6} fontFamily="ui-monospace">
                     due {deadline}m
                   </text>
                 </>
@@ -274,7 +323,7 @@ export default function CityMap({
               />
               <path d={`M${dx - 5} ${dy + 2} L${dx - 5} ${dy - 3} L${dx} ${dy - 6} L${dx + 5} ${dy - 3} L${dx + 5} ${dy + 2} Z`} fill="none" stroke={PALETTE.mint} strokeWidth={1} />
               {!compact ? (
-                <text x={dx} y={dy + 22} textAnchor="middle" fill={PALETTE.mint} fontSize={6.5} fontFamily="ui-monospace" letterSpacing={1}>
+                <text x={dx} y={dy - 16} textAnchor="middle" fill={PALETTE.mint} fontSize={7} fontFamily="ui-monospace" letterSpacing={1.2}>
                   DEPOT
                 </text>
               ) : null}

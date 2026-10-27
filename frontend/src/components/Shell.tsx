@@ -164,7 +164,7 @@ export default function Shell() {
               </NavLink>
             </div>
           </div>
-          <nav className="flex gap-1 overflow-x-auto border-t border-line/50 px-3 py-1.5 lg:hidden">
+          <nav className="grid grid-cols-3 gap-1 border-t border-line/50 px-3 py-2 lg:hidden">
             {NAV.flatMap((group) => group.items).map((item) => {
               const Icon = item.icon;
               return (
@@ -173,7 +173,7 @@ export default function Shell() {
                   to={item.to}
                   end={item.end}
                   className={({ isActive }) =>
-                    `flex shrink-0 items-center gap-1.5 rounded px-2 py-1 text-[11px] ${
+                    `flex items-center gap-1.5 rounded px-2 py-1.5 text-[11px] ${
                       isActive ? "bg-mint/10 text-mint" : "text-fog"
                     }`
                   }

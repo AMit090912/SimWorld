@@ -13,9 +13,10 @@ Open `http://127.0.0.1:8000` (production build) or `http://localhost:5173` (Vite
 
 ## 1. Frame the workspace (30 s)
 
-The left column is the scenario and agent configuration, the center is ground-truth simulation state,
-and the right is the evaluation computed from recorded steps. Point out the preview label: a preview is
-never scored.
+The setup bar at the top configures the scenario, seed, and agent. The map is the main canvas: it
+shows ground-truth simulation state, a recorded route trail, and readable destination labels. The right
+rail holds the evaluation and an activity panel with Events / Packages / Decisions tabs. Point out the
+preview label: a preview is never scored.
 
 ![Workspace preview](screenshots/01-workspace-preview.png)
 

@@ -274,7 +274,7 @@ export default function RunDetail() {
           <Panel bodyClassName="p-2" title={`${state.kind === "city_logistics" ? "City state" : "Signal state"} · step ${state.step}`}>
             <div className="h-[clamp(340px,48vh,560px)] overflow-hidden rounded-lg border border-line/60">
               {state.kind === "city_logistics" ? (
-                <CityMap state={state as CityState} trail={trail} />
+                <CityMap state={state as CityState} trail={(state as CityState).trail ?? trail} />
               ) : (
                 <TrafficMap state={state as TrafficState} />
               )}

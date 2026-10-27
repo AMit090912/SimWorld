@@ -83,6 +83,7 @@ class CityWorld:
         }
         self.initial_stations = dict(self.stations)
 
+        self.trail: list[str] = [self.depot]
         self.step = 0
         self.time_min = 0
         self.status = "running"
@@ -255,6 +256,7 @@ class CityWorld:
             "horizon_steps": self.horizon_steps,
             "step_minutes": self.step_minutes,
             "objective": self.config.get("objective", "Deliver every package before its deadline."),
+            "trail": list(self.trail),
             "vehicle": {
                 "node": self.vehicle["node"],
                 "fuel_l": round(self.vehicle["fuel_l"], 3),
@@ -333,6 +335,7 @@ class CityWorld:
                 f"Move needs {required:.3f} L but only {self.vehicle['fuel_l']:.3f} L remains.",
             )
         self.vehicle["node"] = target
+        self.trail = (self.trail + [target])[-500:]
         self.vehicle["fuel_l"] = max(0.0, self.vehicle["fuel_l"] - required)
         self.vehicle["distance_km"] += edge["km"]
         self.stats["fuel_consumed_l"] += required
@@ -537,6 +540,7 @@ class CityWorld:
                 {"id": eid, "a": e["a"], "b": e["b"], "open": e["open"], "km": e["km"]}
                 for eid, e in sorted(self.edges.items())
             ],
+            "trail": list(self.trail),
             "vehicle": {
                 "node": self.vehicle["node"],
                 "fuel_l": round(self.vehicle["fuel_l"], 3),
@@ -592,6 +596,7 @@ class CityWorld:
             "kind": self.kind,
             "config": self.config,
             "edges": self.edges,
+            "trail": self.trail,
             "vehicle": self.vehicle,
             "packages": self.packages,
             "stations": self.stations,
@@ -613,6 +618,7 @@ class CityWorld:
         world = cls(state["config"])
         world.edges = state["edges"]
         world.adjacency = world._build_adjacency()
+        world.trail = state.get("trail", [world.depot])
         world.vehicle = state["vehicle"]
         world.packages = state["packages"]
         world.stations = state["stations"]

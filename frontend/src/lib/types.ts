@@ -158,6 +158,7 @@ export interface CityState {
   fog_radius: number | null;
   options: Record<string, string>;
   edges: SimEdge[];
+  trail?: string[];
   vehicle: {
     node: string;
     fuel_l: number;
