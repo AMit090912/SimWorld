@@ -150,13 +150,14 @@ export default function RunDetail() {
   const total = replay.steps.length;
   const metricsAtStep = currentStep?.metrics || replay.initial_snapshot.metrics || {};
   const series = [replay.initial_snapshot.metrics || {}, ...replay.steps.map((step) => step.metrics)];
+  const visibleSeries = series.slice(0, index + 1);
   const city = state.kind === "city_logistics" ? (state as CityState) : null;
   const traffic = state.kind === "traffic_control" ? (state as TrafficState) : null;
 
-  const deliveredSeries = series.map((item) => Number(item.packages_delivered ?? 0));
-  const fuelSeries = series.map((item) => Number(item.fuel_remaining_l ?? 0));
-  const throughputSeries = series.map((item) => Number(item.vehicles_discharged ?? 0));
-  const waitSeries = series.map((item) => Number(item.avg_wait_ticks ?? 0));
+  const deliveredSeries = visibleSeries.map((item) => Number(item.packages_delivered ?? 0));
+  const fuelSeries = visibleSeries.map((item) => Number(item.fuel_remaining_l ?? 0));
+  const throughputSeries = visibleSeries.map((item) => Number(item.vehicles_discharged ?? 0));
+  const waitSeries = visibleSeries.map((item) => Number(item.avg_wait_ticks ?? 0));
 
   return (
     <div className="space-y-4">
