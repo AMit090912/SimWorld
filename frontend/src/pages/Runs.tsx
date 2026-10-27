@@ -76,7 +76,7 @@ export default function Runs() {
         </div>
         <div className="panel-flat px-3 py-2.5">
           <div className="label">Failing runs</div>
-          <div className="stat-value mt-1 text-coral">
+          <div className="stat-value mt-1 text-brick">
             {(data?.runs ?? []).filter((run) => run.status === "failed").length}
           </div>
         </div>
@@ -91,7 +91,7 @@ export default function Runs() {
         action={
           <div className="flex items-center gap-1.5">
             <div className="relative">
-              <Search className="pointer-events-none absolute left-2 top-1/2 h-3 w-3 -translate-y-1/2 text-slate-600" />
+              <Search className="pointer-events-none absolute left-2 top-1/2 h-3 w-3 -translate-y-1/2 text-ink-400" />
               <input
                 className="input !py-1.5 !pl-7 !text-[10px]"
                 placeholder="Search id, agent, seed"
@@ -159,17 +159,17 @@ export default function Runs() {
                 {runs.map((run) => (
                   <tr
                     key={run.id}
-                    className="group cursor-pointer transition hover:bg-white/[0.025]"
+                    className="group cursor-pointer transition hover:bg-ink-900/[0.035]"
                     onClick={() => navigate(`/runs/${run.id}`)}
                   >
-                    <td className="table-cell font-mono text-[10px] text-mint">{run.id}</td>
+                    <td className="table-cell font-mono text-[10px] text-pine">{run.id}</td>
                     <td className="table-cell">
-                      <div className="text-[11px] text-slate-300">{scenarioNames[run.scenario_id] || run.scenario_id}</div>
-                      <div className="text-[9px] text-slate-600">{run.options ? Object.entries(run.options).map(([k, v]) => `${k}=${v}`).join(" · ") : ""}</div>
+                      <div className="text-[11px] text-ink-700">{scenarioNames[run.scenario_id] || run.scenario_id}</div>
+                      <div className="text-[9px] text-ink-400">{run.options ? Object.entries(run.options).map(([k, v]) => `${k}=${v}`).join(" · ") : ""}</div>
                     </td>
                     <td className="table-cell">
-                      <div className="text-[11px] text-slate-300">{run.agent.label}</div>
-                      <div className="text-[9px] capitalize text-slate-600">{run.agent.type}</div>
+                      <div className="text-[11px] text-ink-700">{run.agent.label}</div>
+                      <div className="text-[9px] capitalize text-ink-400">{run.agent.type}</div>
                     </td>
                     <td className="table-cell font-mono text-[10px]">{run.seed}</td>
                     <td className="table-cell"><StatusPill status={run.status} /></td>
@@ -177,24 +177,24 @@ export default function Runs() {
                       <span
                         className={`font-mono text-sm font-semibold ${
                           run.score === null
-                            ? "text-slate-600"
+                            ? "text-ink-400"
                             : statusTone(run.status) === "coral"
-                              ? "text-coral"
+                              ? "text-brick"
                               : Number(run.score) >= 75
-                                ? "text-mint"
+                                ? "text-pine"
                                 : Number(run.score) >= 45
-                                  ? "text-amber"
-                                  : "text-coral"
+                                  ? "text-ochre"
+                                  : "text-brick"
                         }`}
                       >
                         {run.score === null ? "—" : Number(run.score).toFixed(1)}
                       </span>
                     </td>
-                    <td className="table-cell text-[10px] text-fog">{summary(run)}</td>
+                    <td className="table-cell text-[10px] text-ink-500">{summary(run)}</td>
                     <td className="table-cell font-mono text-[10px]">{run.steps}</td>
-                    <td className="table-cell whitespace-nowrap text-[10px] text-slate-500">{relativeTime(run.created_at)}</td>
+                    <td className="table-cell whitespace-nowrap text-[10px] text-ink-500">{relativeTime(run.created_at)}</td>
                     <td className="table-cell text-right">
-                      <span className="inline-flex items-center gap-1 text-[10px] text-fog group-hover:text-mint">
+                      <span className="inline-flex items-center gap-1 text-[10px] text-ink-500 group-hover:text-pine">
                         replay <ArrowRight className="h-3 w-3" />
                       </span>
                     </td>

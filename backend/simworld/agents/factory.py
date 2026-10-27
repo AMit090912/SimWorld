@@ -8,7 +8,7 @@ from typing import Any
 from ..config import Settings
 from .base import Agent, AgentError
 from .builtins import AGENT_METADATA, default_builtin_for, make_builtin
-from .external import ExternalAgent
+from .external import ExternalAgent, validate_endpoint
 from .llm import LLMAgent
 
 MAX_TIMEOUT_MS = 10000
@@ -41,6 +41,7 @@ def build_agent(spec: dict[str, Any], environment: str, settings: Settings) -> A
                 f"Timeout must be between {MIN_TIMEOUT_MS} and "
                 f"{min(MAX_TIMEOUT_MS, settings.max_agent_timeout_ms)} ms.",
             )
+        validate_endpoint(url.strip(), settings.allow_loopback_agents)
         token_env = spec.get("auth_env")
         token = os.getenv(token_env) if isinstance(token_env, str) and token_env else None
         return ExternalAgent(

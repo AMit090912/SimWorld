@@ -235,8 +235,8 @@ export default function Workspace() {
 
       {/* ------------------------------- setup bar ------------------------------- */}
       <div className="panel px-3 py-2.5">
-        <div className="flex flex-wrap items-end gap-2">
-          <div className="min-w-[210px] flex-1">
+        <div className="flex min-w-0 flex-wrap items-end gap-2">
+          <div className="w-full min-w-0 sm:w-auto sm:min-w-[210px] sm:flex-1">
             <Field label="Scenario">
               <select
                 className="select"
@@ -257,7 +257,7 @@ export default function Workspace() {
             </Field>
           </div>
 
-          <div className="w-[84px]">
+          <div className="w-[84px] shrink-0">
             <Field label="Seed">
               <div className="flex gap-1">
                 <input
@@ -279,9 +279,9 @@ export default function Workspace() {
             </Field>
           </div>
 
-          <div className="min-w-[150px]">
+          <div className="w-[150px] shrink-0 sm:w-auto">
             <Field label="Agent">
-              <div className="grid grid-cols-3 gap-0.5 rounded-md border border-line bg-ink-950/60 p-0.5">
+              <div className="grid grid-cols-3 gap-0.5 rounded-md border border-line bg-paper/60 p-0.5">
                 {(
                   [
                     { id: "builtin", icon: Cpu, title: "Built-in" },
@@ -296,7 +296,7 @@ export default function Workspace() {
                       onClick={() => setMode(item.id)}
                       title={item.title}
                       className={`flex items-center justify-center gap-1 rounded px-1 py-1.5 text-[10px] font-medium transition ${
-                        mode === item.id ? "bg-ink-750 text-white" : "text-fog hover:text-slate-200"
+                        mode === item.id ? "bg-paper-300 text-ink-900" : "text-ink-500 hover:text-ink-800"
                       }`}
                     >
                       <Icon className="h-3 w-3" />
@@ -350,7 +350,7 @@ export default function Workspace() {
           </div>
 
           <div className="flex w-full items-center gap-2 sm:w-auto">
-            <label className="hidden items-center gap-1.5 text-[10px] text-fog sm:flex">
+            <label className="hidden items-center gap-1.5 text-[10px] text-ink-500 sm:flex">
               <input
                 type="checkbox"
                 checked={startImmediately}
@@ -374,12 +374,12 @@ export default function Workspace() {
                   {scenario.kind === "city_logistics" ? "City logistics" : "Traffic control"}
                 </span>
                 <span className="chip">{scenario.difficulty}</span>
-                <span className="hidden text-[10px] text-slate-500 sm:inline">{scenario.tagline}</span>
+                <span className="hidden text-[10px] text-ink-500 sm:inline">{scenario.tagline}</span>
               </>
             ) : null}
           </div>
           <button
-            className="inline-flex items-center gap-1 text-[10px] text-fog transition hover:text-slate-200"
+            className="inline-flex items-center gap-1 text-[10px] text-ink-500 transition hover:text-ink-800"
             onClick={() => setAdvanced((value) => !value)}
           >
             <Settings2 className="h-3 w-3" />
@@ -415,31 +415,32 @@ export default function Workspace() {
           <section className="panel overflow-hidden">
             <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line/70 px-3.5 py-2.5">
               <div className="flex min-w-0 items-center gap-2">
-                <span className="truncate text-xs font-semibold text-white">
+                <span className="truncate text-xs font-semibold text-ink-900">
                   {scenario?.name ?? "Simulation"}
                 </span>
                 <StatusPill status={payload?.run.status ?? "preview"} />
+                {!payload ? <span className="chip">not recorded</span> : null}
                 {payload ? (
-                  <span className="hidden font-mono text-[9px] text-slate-600 sm:inline">{payload.run.id}</span>
+                  <span className="hidden font-mono text-[9px] text-ink-400 sm:inline">{payload.run.id}</span>
                 ) : null}
               </div>
-              <div className="flex items-center gap-2 text-[10px] text-fog">
+              <div className="flex items-center gap-2 text-[10px] text-ink-500">
                 {liveState ? (
                   <>
                     <span className="font-mono">{clock(liveState.time_min)}</span>
-                    <span className="text-slate-600">·</span>
+                    <span className="text-ink-400">·</span>
                     <span className="font-mono">{liveState.step}/{liveState.horizon_steps}</span>
                   </>
                 ) : null}
                 {payload ? (
-                  <Link to={`/runs/${payload.run.id}`} className="inline-flex items-center gap-1 text-mint hover:underline">
+                  <Link to={`/runs/${payload.run.id}`} className="inline-flex items-center gap-1 text-pine hover:underline">
                     replay <ExternalLink className="h-3 w-3" />
                   </Link>
                 ) : null}
               </div>
             </div>
 
-            <div className="relative h-[clamp(430px,calc(100vh-310px),820px)] bg-[#070d13]">
+            <div className="relative h-[min(calc(100vw-32px),430px)] bg-[#E7DECD] sm:h-[clamp(430px,calc(100vh-310px),820px)]">
               {liveState ? (
                 <SimulationMap
                   state={liveState}
@@ -447,46 +448,38 @@ export default function Workspace() {
                 />
               ) : (
                 <div className="flex h-full items-center justify-center">
-                  {preview.loading ? <Spinner label="Loading map" /> : <span className="text-xs text-slate-600">No map</span>}
+                  {preview.loading ? <Spinner label="Loading map" /> : <span className="text-xs text-ink-400">No map</span>}
                 </div>
               )}
 
               {/* live vitals */}
               {liveState?.kind === "city_logistics" ? (
                 <div className="pointer-events-none absolute left-2 top-2 flex flex-wrap gap-1.5">
-                  <span className="rounded-md border border-line/70 bg-ink-950/85 px-2 py-1 font-mono text-[10px] text-sky backdrop-blur">
+                  <span className="rounded-md border border-line/70 bg-paper/85 px-2 py-1 font-mono text-[10px] text-steel backdrop-blur">
                     <Fuel className="mr-1 inline h-3 w-3" />
                     {num(liveState.vehicle.fuel_l, 2)} L
                   </span>
-                  <span className="rounded-md border border-line/70 bg-ink-950/85 px-2 py-1 font-mono text-[10px] text-amber backdrop-blur">
+                  <span className="rounded-md border border-line/70 bg-paper/85 px-2 py-1 font-mono text-[10px] text-ochre backdrop-blur">
                     <Boxes className="mr-1 inline h-3 w-3" />
                     {liveState.vehicle.cargo.length}/{liveState.vehicle.capacity}
                   </span>
-                  <span className="rounded-md border border-line/70 bg-ink-950/85 px-2 py-1 font-mono text-[10px] text-slate-300 backdrop-blur">
+                  <span className="rounded-md border border-line/70 bg-paper/85 px-2 py-1 font-mono text-[10px] text-ink-700 backdrop-blur">
                     {num(liveState.vehicle.distance_km, 1)} km
                   </span>
                 </div>
               ) : null}
               {liveState?.kind === "traffic_control" ? (
                 <div className="pointer-events-none absolute left-2 top-2 flex flex-wrap gap-1.5">
-                  <span className="rounded-md border border-line/70 bg-ink-950/85 px-2 py-1 font-mono text-[10px] text-slate-300 backdrop-blur">
+                  <span className="rounded-md border border-line/70 bg-paper/85 px-2 py-1 font-mono text-[10px] text-ink-700 backdrop-blur">
                     <Gauge className="mr-1 inline h-3 w-3" />
                     {num(Number(liveState.metrics.vehicles_discharged), 0)} cleared
                   </span>
-                  <span className="rounded-md border border-line/70 bg-ink-950/85 px-2 py-1 font-mono text-[10px] text-amber backdrop-blur">
+                  <span className="rounded-md border border-line/70 bg-paper/85 px-2 py-1 font-mono text-[10px] text-ochre backdrop-blur">
                     min green {liveState.min_green}
                   </span>
                 </div>
               ) : null}
 
-              {!payload && liveState ? (
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 bg-gradient-to-t from-[#070d13] via-[#070d13]/60 to-transparent px-3 pb-2.5 pt-10">
-                  <div className="text-[10px] text-fog">
-                    Preview only. Set up a run above, then launch.
-                  </div>
-                  <span className="chip">not recorded</span>
-                </div>
-              ) : null}
             </div>
 
             <div className="flex flex-wrap items-center gap-1.5 border-t border-line/70 px-2.5 py-2">
@@ -497,7 +490,7 @@ export default function Workspace() {
                       <Pause className="h-3.5 w-3.5" /> Pause
                     </button>
                   ) : payload.run.status === "finished" || payload.run.status === "failed" ? (
-                    <span className={`inline-flex h-8 items-center rounded-md border px-2.5 text-[11px] font-semibold ${payload.run.status === "failed" ? "border-coral/40 bg-coral/10 text-coral" : "border-mint/40 bg-mint/10 text-mint"}`}>
+                    <span className={`inline-flex h-8 items-center rounded-md border px-2.5 text-[11px] font-semibold ${payload.run.status === "failed" ? "border-brick/40 bg-brick/10 text-brick" : "border-pine/40 bg-pine/10 text-pine"}`}>
                       {payload.run.status === "failed" ? "run failed" : "complete"}
                     </span>
                   ) : (
@@ -513,20 +506,20 @@ export default function Workspace() {
                   </button>
                   <span className="mx-1 hidden h-5 w-px bg-line sm:block" />
                   <div className="flex flex-wrap items-center gap-1">
-                    <span className="text-[9px] uppercase tracking-[0.14em] text-slate-600">inject</span>
+                    <span className="text-[9px] uppercase tracking-[0.14em] text-ink-400">inject</span>
                     {disruptions.map((item) => (
                       <button
                         key={item.type}
                         onClick={() => disrupt(item.type)}
                         disabled={busy || payload.run.status !== "running"}
-                        className="rounded border border-line bg-ink-900/70 px-2 py-1 text-[10px] text-fog transition hover:border-amber/40 hover:text-amber disabled:opacity-40"
+                        className="rounded border border-line bg-surface/70 px-2 py-1 text-[10px] text-ink-500 transition hover:border-ochre/40 hover:text-ochre disabled:opacity-40"
                       >
                         {item.label}
                       </button>
                     ))}
                   </div>
                   <div className="ml-auto flex items-center gap-1.5">
-                    <span className="hidden text-[9px] uppercase tracking-[0.12em] text-slate-600 sm:inline">tick</span>
+                    <span className="hidden text-[9px] uppercase tracking-[0.12em] text-ink-400 sm:inline">tick</span>
                     <select className="select !w-[76px] !py-1 !text-[10px]" value={speed} onChange={(event) => setSpeed(Number(event.target.value))}>
                       <option value={0}>max</option>
                       <option value={150}>150 ms</option>
@@ -543,7 +536,7 @@ export default function Workspace() {
 
         {/* ------------------------------- right rail ------------------------------- */}
         <aside className="min-w-0 space-y-3">
-          <Panel title="Evaluation" action={<span className="text-[9px] text-slate-600">{payload ? "recorded" : "not scored"}</span>}>
+          <Panel title="Evaluation" action={<span className="text-[9px] text-ink-400">{payload ? "recorded" : "not scored"}</span>}>
             {payload && evaluation ? (
               <ScoreSummary state={payload.state} evaluation={evaluation} />
             ) : (
@@ -558,7 +551,7 @@ export default function Workspace() {
               </span>
             }
             action={
-              <div className="flex gap-0.5 rounded border border-line bg-ink-950/60 p-0.5">
+              <div className="flex gap-0.5 rounded border border-line bg-paper/60 p-0.5">
                 {(
                   [
                     ["events", "Events"],
@@ -569,7 +562,7 @@ export default function Workspace() {
                   <button
                     key={value}
                     onClick={() => setTab(value)}
-                    className={`rounded px-1.5 py-0.5 text-[9px] font-medium transition ${tab === value ? "bg-ink-750 text-white" : "text-fog hover:text-slate-200"}`}
+                    className={`rounded px-1.5 py-0.5 text-[9px] font-medium transition ${tab === value ? "bg-paper-300 text-ink-900" : "text-ink-500 hover:text-ink-800"}`}
                   >
                     {label}
                   </button>
@@ -621,10 +614,10 @@ function ScoreSummary({ state, evaluation }: { state: SimState; evaluation: Eval
       <div className="flex items-center gap-3">
         <ScoreRing score={evaluation.score} size={104} />
         <div className="min-w-0 space-y-1">
-          <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-mint">
+          <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-pine">
             {Number(evaluation.score) >= 75 ? "on track" : Number(evaluation.score) >= 45 ? "partial" : "failing"}
           </div>
-          <div className="text-[10px] leading-relaxed text-fog">
+          <div className="text-[10px] leading-relaxed text-ink-500">
             {state.status === "running" ? "Live score from recorded transitions." : "Final score from the recorded run."}
           </div>
           <div className="flex flex-wrap gap-1">
@@ -653,8 +646,8 @@ function ScoreSummary({ state, evaluation }: { state: SimState; evaluation: Eval
         ) : null}
       </div>
 
-      <details className="group rounded border border-line/60 bg-ink-900/40 px-2.5 py-2">
-        <summary className="flex cursor-pointer list-none items-center justify-between text-[10px] text-fog">
+      <details className="group rounded border border-line/60 bg-surface/40 px-2.5 py-2">
+        <summary className="flex cursor-pointer list-none items-center justify-between text-[10px] text-ink-500">
           Score breakdown
           <ChevronDown className="h-3 w-3 transition group-open:rotate-180" />
         </summary>
@@ -664,7 +657,7 @@ function ScoreSummary({ state, evaluation }: { state: SimState; evaluation: Eval
       </details>
 
       {state.status !== "running" && evaluation.failures?.length ? (
-        <div className="rounded border border-amber/25 bg-amber/[0.05] px-2 py-1.5 text-[10px] leading-relaxed text-amber/90">
+        <div className="rounded border border-ochre/25 bg-ochre/[0.05] px-2 py-1.5 text-[10px] leading-relaxed text-ochre/90">
           {evaluation.failures[0]}
         </div>
       ) : null}
@@ -685,29 +678,29 @@ function PreviewSummary({ state, scenario }: { state: SimState | null; scenario?
           <Mini label="Fuel" value={`${num(city.vehicle.fuel_l, 1)} L`} />
           <Mini label="Horizon" value={`${city.horizon_steps} t`} />
         </div>
-        <p className="text-[10px] leading-relaxed text-fog">{scenario?.tagline}</p>
-        <details className="group rounded border border-line/60 bg-ink-900/40 px-2.5 py-2">
-          <summary className="flex cursor-pointer list-none items-center justify-between text-[10px] text-fog">
+        <p className="text-[10px] leading-relaxed text-ink-500">{scenario?.tagline}</p>
+        <details className="group rounded border border-line/60 bg-surface/40 px-2.5 py-2">
+          <summary className="flex cursor-pointer list-none items-center justify-between text-[10px] text-ink-500">
             Scenario brief
             <ChevronDown className="h-3 w-3 transition group-open:rotate-180" />
           </summary>
           <div className="mt-2 space-y-1.5">
             {scenario?.objectives.map((objective) => (
-              <div key={objective} className="flex items-start gap-1.5 text-[10px] leading-relaxed text-slate-300">
-                <ArrowRight className="mt-0.5 h-3 w-3 shrink-0 text-mint/70" />
+              <div key={objective} className="flex items-start gap-1.5 text-[10px] leading-relaxed text-ink-700">
+                <ArrowRight className="mt-0.5 h-3 w-3 shrink-0 text-pine/70" />
                 {objective}
               </div>
             ))}
             <div className="divider" />
             {scenario?.constraints.map((constraint) => (
-              <div key={constraint} className="flex items-start gap-1.5 text-[9px] leading-relaxed text-fog">
-                <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-amber" />
+              <div key={constraint} className="flex items-start gap-1.5 text-[9px] leading-relaxed text-ink-500">
+                <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-ochre" />
                 {constraint}
               </div>
             ))}
           </div>
         </details>
-        <div className="text-[9px] text-slate-600">Metrics appear after the first recorded step.</div>
+        <div className="text-[9px] text-ink-400">Metrics appear after the first recorded step.</div>
       </div>
     );
   }
@@ -719,17 +712,17 @@ function PreviewSummary({ state, scenario }: { state: SimState | null; scenario?
         <Mini label="Min green" value={`${traffic.min_green} t`} />
         <Mini label="Horizon" value={`${traffic.horizon_steps} t`} />
       </div>
-      <p className="text-[10px] leading-relaxed text-fog">{scenario?.tagline}</p>
-      <div className="text-[9px] text-slate-600">Metrics appear after the first recorded step.</div>
+      <p className="text-[10px] leading-relaxed text-ink-500">{scenario?.tagline}</p>
+      <div className="text-[9px] text-ink-400">Metrics appear after the first recorded step.</div>
     </div>
   );
 }
 
 function Mini({ label, value, tone = "default" }: { label: string; value: string; tone?: "default" | "mint" | "amber" | "coral" }) {
-  const color = tone === "mint" ? "text-mint" : tone === "amber" ? "text-amber" : tone === "coral" ? "text-coral" : "text-white";
+  const color = tone === "mint" ? "text-pine" : tone === "amber" ? "text-ochre" : tone === "coral" ? "text-brick" : "text-ink-900";
   return (
-    <div className="rounded border border-line/60 bg-ink-900/50 px-2 py-1.5">
-      <div className="text-[8px] uppercase tracking-[0.12em] text-slate-600">{label}</div>
+    <div className="rounded border border-line/60 bg-surface/50 px-2 py-1.5">
+      <div className="text-[8px] uppercase tracking-[0.12em] text-ink-400">{label}</div>
       <div className={`font-mono text-sm font-semibold ${color}`}>{value}</div>
     </div>
   );
@@ -737,20 +730,20 @@ function Mini({ label, value, tone = "default" }: { label: string; value: string
 
 function DecisionList({ decisions }: { decisions: DecisionItem[] }) {
   if (!decisions.length) {
-    return <div className="px-2 py-6 text-center text-[10px] text-slate-600">Start or step the run to see decisions.</div>;
+    return <div className="px-2 py-6 text-center text-[10px] text-ink-400">Start or step the run to see decisions.</div>;
   }
   return (
     <div className="max-h-[300px] space-y-1 overflow-y-auto pr-0.5">
       {decisions.map((item) => (
-        <div key={item.step} className="rounded border border-line/50 bg-ink-900/40 px-2 py-1.5">
+        <div key={item.step} className="rounded border border-line/50 bg-surface/40 px-2 py-1.5">
           <div className="flex items-center gap-1.5">
-            <span className="font-mono text-[9px] text-slate-600">t{item.step}</span>
-            <span className={`text-[9px] ${item.ok ? "text-mint" : "text-coral"}`}>{item.ok ? "accepted" : item.code}</span>
+            <span className="font-mono text-[9px] text-ink-400">t{item.step}</span>
+            <span className={`text-[9px] ${item.ok ? "text-pine" : "text-brick"}`}>{item.ok ? "accepted" : item.code}</span>
             {item.agent_error ? <span className="chip-amber !text-[8px]">fallback</span> : null}
-            <span className="ml-auto font-mono text-[9px] text-slate-600">{num(item.latency_ms, 0)} ms</span>
+            <span className="ml-auto font-mono text-[9px] text-ink-400">{num(item.latency_ms, 0)} ms</span>
           </div>
-          <div className="truncate font-mono text-[10px] text-slate-300">{JSON.stringify(item.action)}</div>
-          <div className="line-clamp-2 text-[9px] leading-relaxed text-fog">{item.reasoning || item.reason}</div>
+          <div className="truncate font-mono text-[10px] text-ink-700">{JSON.stringify(item.action)}</div>
+          <div className="line-clamp-2 text-[9px] leading-relaxed text-ink-500">{item.reasoning || item.reason}</div>
         </div>
       ))}
     </div>
@@ -763,18 +756,18 @@ function TrafficList({ state }: { state: TrafficState }) {
       {state.intersections.map((intersection) => {
         const total = Object.values(intersection.queues).reduce((sum, value) => sum + value, 0);
         return (
-          <div key={intersection.id} className="flex items-center gap-2 rounded border border-line/40 bg-ink-900/40 px-2 py-1.5">
-            <span className={`h-1.5 w-1.5 rounded-full ${intersection.phase === "NS" ? "bg-mint" : "bg-sky"}`} />
-            <span className="w-9 font-mono text-[10px] text-slate-300">{intersection.id}</span>
-            <span className={`w-6 font-mono text-[9px] ${intersection.phase === "NS" ? "text-mint" : "text-sky"}`}>{intersection.phase}</span>
+          <div key={intersection.id} className="flex items-center gap-2 rounded border border-line/40 bg-surface/40 px-2 py-1.5">
+            <span className={`h-1.5 w-1.5 rounded-full ${intersection.phase === "NS" ? "bg-pine" : "bg-steel"}`} />
+            <span className="w-9 font-mono text-[10px] text-ink-700">{intersection.id}</span>
+            <span className={`w-6 font-mono text-[9px] ${intersection.phase === "NS" ? "text-pine" : "text-steel"}`}>{intersection.phase}</span>
             <div className="flex flex-1 gap-1">
               {(["N", "S", "E", "W"] as const).map((approach) => (
-                <span key={approach} className="flex-1 rounded bg-ink-950 px-1 py-0.5 text-center font-mono text-[9px] text-slate-500">
+                <span key={approach} className="flex-1 rounded bg-paper px-1 py-0.5 text-center font-mono text-[9px] text-ink-500">
                   {approach} {intersection.queues[approach]}
                 </span>
               ))}
             </div>
-            <span className="w-8 text-right font-mono text-[9px] text-amber">{total}</span>
+            <span className="w-8 text-right font-mono text-[9px] text-ochre">{total}</span>
           </div>
         );
       })}
@@ -785,8 +778,8 @@ function TrafficList({ state }: { state: TrafficState }) {
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between gap-3">
-      <span className="text-fog">{label}</span>
-      <span className="truncate font-mono text-[10px] text-slate-300">{value}</span>
+      <span className="text-ink-500">{label}</span>
+      <span className="truncate font-mono text-[10px] text-ink-700">{value}</span>
     </div>
   );
 }

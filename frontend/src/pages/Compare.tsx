@@ -18,7 +18,7 @@ import { useApiData, useInterval } from "../hooks/useApiData";
 import { EmptyState, ErrorBanner, Field, PageHeader, Panel, Spinner } from "../components/ui";
 import { StatusPill } from "../components/sim";
 
-const PALETTE = ["#38e3ab", "#72a9ff", "#f5b84c"];
+const PALETTE = ["#1F5A4A", "#2E5A74", "#A9771F"];
 
 function meanOf(block: AggregateBlock | undefined, key: string): number | null {
   const entry = block?.metrics?.[key];
@@ -31,10 +31,10 @@ function ScoreBars({ items }: { items: { label: string; value: number }[] }) {
       {items.map((item, index) => (
         <div key={item.label}>
           <div className="mb-1 flex items-baseline justify-between gap-2 text-[10px]">
-            <span className="truncate text-slate-300">{item.label}</span>
-            <span className="font-mono text-slate-400">{item.value.toFixed(1)}</span>
+            <span className="truncate text-ink-700">{item.label}</span>
+            <span className="font-mono text-ink-600">{item.value.toFixed(1)}</span>
           </div>
-          <div className="h-2 overflow-hidden rounded-full bg-ink-950">
+          <div className="h-2 overflow-hidden rounded-full bg-paper-300">
             <div
               className="h-full rounded-full transition-all"
               style={{ width: `${Math.max(1, Math.min(100, item.value))}%`, background: PALETTE[index % PALETTE.length] }}
@@ -184,7 +184,7 @@ export default function Compare() {
         title="Same conditions. Different strategies."
         description="Launch a reproducible experiment across seeds and agents, or line up completed runs. The aggregate is computed from each run's recorded metrics — never from agent claims."
         actions={
-          <div className="flex rounded-md border border-line bg-ink-950/60 p-0.5">
+          <div className="flex rounded-md border border-line bg-paper/60 p-0.5">
             {(
               [
                 ["experiments", "Experiments", Beaker],
@@ -195,7 +195,7 @@ export default function Compare() {
                 key={value}
                 onClick={() => setTab(value)}
                 className={`flex items-center gap-1.5 rounded px-2.5 py-1.5 text-[10px] font-medium transition ${
-                  tab === value ? "bg-ink-750 text-white" : "text-fog hover:text-slate-200"
+                  tab === value ? "bg-paper-300 text-ink-900" : "text-ink-500 hover:text-ink-800"
                 }`}
               >
                 <Icon className="h-3 w-3" />
@@ -232,7 +232,7 @@ export default function Compare() {
                         <label
                           key={agent.id}
                           className={`flex cursor-pointer items-center gap-2 rounded border px-2 py-1.5 text-[10px] transition ${
-                            checked ? "border-mint/30 bg-mint/[0.05] text-slate-200" : "border-line/60 text-fog hover:border-slate-600"
+                            checked ? "border-pine/30 bg-pine/[0.05] text-ink-800" : "border-line/60 text-ink-500 hover:border-slate-600"
                           }`}
                         >
                           <input
@@ -246,7 +246,7 @@ export default function Compare() {
                             className="accent-mint"
                           />
                           <span className="flex-1">{agent.label}</span>
-                          <span className="font-mono text-[9px] text-slate-600">{agent.id}</span>
+                          <span className="font-mono text-[9px] text-ink-400">{agent.id}</span>
                         </label>
                       );
                     })}
@@ -273,7 +273,7 @@ export default function Compare() {
                   </Field>
                 ))}
 
-                <div className="rounded border border-line/60 bg-ink-900/40 px-2 py-1.5 text-[9px] leading-relaxed text-slate-500">
+                <div className="rounded border border-line/60 bg-surface/40 px-2 py-1.5 text-[9px] leading-relaxed text-ink-500">
                   {selectedAgents.length} agent(s) × {seeds.split(/[,\s]+/).filter(Boolean).length} seed(s) ={" "}
                   {selectedAgents.length * seeds.split(/[,\s]+/).filter(Boolean).length} runs
                 </div>
@@ -297,13 +297,13 @@ export default function Compare() {
                       key={item.id}
                       onClick={() => loadExperiment(item.id)}
                       className={`flex w-full items-center gap-2 rounded border px-2 py-1.5 text-left transition ${
-                        experiment?.id === item.id ? "border-mint/30 bg-mint/[0.05]" : "border-line/50 hover:border-slate-600"
+                        experiment?.id === item.id ? "border-pine/30 bg-pine/[0.05]" : "border-line/50 hover:border-slate-600"
                       }`}
                     >
-                      <RefreshCw className={`h-3 w-3 ${item.status === "running" ? "animate-spin text-sky" : "text-slate-600"}`} />
+                      <RefreshCw className={`h-3 w-3 ${item.status === "running" ? "animate-spin text-steel" : "text-ink-400"}`} />
                       <div className="min-w-0 flex-1">
-                        <div className="truncate text-[10px] text-slate-300">{item.scenario_id}</div>
-                        <div className="text-[9px] text-slate-600">
+                        <div className="truncate text-[10px] text-ink-700">{item.scenario_id}</div>
+                        <div className="text-[9px] text-ink-400">
                           {item.config.agents.length} agents · seeds {item.config.seeds.join(", ")}
                         </div>
                       </div>
@@ -314,7 +314,7 @@ export default function Compare() {
                   ))}
                 </div>
               ) : (
-                <div className="text-[10px] text-slate-600">No experiments yet.</div>
+                <div className="text-[10px] text-ink-400">No experiments yet.</div>
               )}
             </Panel>
           </div>
@@ -325,18 +325,18 @@ export default function Compare() {
                 <Panel
                   title={
                     <span className="flex items-center gap-2">
-                      Experiment <span className="font-mono text-[10px] text-mint">{experiment.id}</span>
+                      Experiment <span className="font-mono text-[10px] text-pine">{experiment.id}</span>
                     </span>
                   }
                   action={<StatusPill status={experiment.status} />}
                 >
                   <div className="flex flex-wrap items-center gap-3">
-                    <div className="text-[10px] text-fog">
+                    <div className="text-[10px] text-ink-500">
                       {experiment.completed_runs} / {experiment.total_runs} runs complete
                     </div>
-                    <div className="h-1.5 min-w-[140px] flex-1 overflow-hidden rounded-full bg-ink-950">
+                    <div className="h-1.5 min-w-[140px] flex-1 overflow-hidden rounded-full bg-paper-300">
                       <div
-                        className="h-full rounded-full bg-mint transition-all"
+                        className="h-full rounded-full bg-pine transition-all"
                         style={{ width: `${(experiment.completed_runs / Math.max(1, experiment.total_runs)) * 100}%` }}
                       />
                     </div>
@@ -346,12 +346,12 @@ export default function Compare() {
                       ))}
                     </div>
                   </div>
-                  {experiment.status === "failed" ? <div className="mt-2 text-[10px] text-coral">{experiment.error}</div> : null}
+                  {experiment.status === "failed" ? <div className="mt-2 text-[10px] text-brick">{experiment.error}</div> : null}
                 </Panel>
 
                 {experiment.aggregate ? (
                   <>
-                    <Panel title="Aggregate by agent" action={<span className="text-[9px] text-slate-600">mean across seeds</span>}>
+                    <Panel title="Aggregate by agent" action={<span className="text-[9px] text-ink-400">mean across seeds</span>}>
                       <div className="grid gap-4 lg:grid-cols-[240px_minmax(0,1fr)]">
                         <ScoreBars
                           items={Object.entries(experiment.aggregate.by_agent).map(([label, block]) => ({
@@ -375,8 +375,8 @@ export default function Compare() {
                             <tbody>
                               {Object.entries(experiment.aggregate.by_agent).map(([label, block]) => (
                                 <tr key={label}>
-                                  <td className="table-cell text-[11px] text-slate-300">{label}</td>
-                                  <td className="table-cell font-mono text-mint">{block.scores.mean.toFixed(1)} <span className="text-[9px] text-slate-600">±{block.scores.std.toFixed(1)}</span></td>
+                                  <td className="table-cell text-[11px] text-ink-700">{label}</td>
+                                  <td className="table-cell font-mono text-pine">{block.scores.mean.toFixed(1)} <span className="text-[9px] text-ink-400">±{block.scores.std.toFixed(1)}</span></td>
                                   <td className="table-cell font-mono">{meanOf(block, "completion_rate") === null ? "—" : pct(meanOf(block, "completion_rate"), 0)}</td>
                                   <td className="table-cell font-mono">{meanOf(block, "on_time_rate") === null ? "—" : pct(meanOf(block, "on_time_rate"), 0)}</td>
                                   <td className="table-cell font-mono">{meanOf(block, "invalid_actions") === null ? "—" : num(meanOf(block, "invalid_actions"), 1)}</td>
@@ -390,7 +390,7 @@ export default function Compare() {
                       </div>
                     </Panel>
 
-                    <Panel title="Per-run evidence" action={<span className="text-[9px] text-slate-600">click a row to open replay</span>} bodyClassName="p-0">
+                    <Panel title="Per-run evidence" action={<span className="text-[9px] text-ink-400">click a row to open replay</span>} bodyClassName="p-0">
                       <div className="overflow-x-auto">
                         <table className="w-full min-w-[760px] border-collapse">
                           <thead>
@@ -407,13 +407,13 @@ export default function Compare() {
                           </thead>
                           <tbody>
                             {experiment.aggregate.runs.map((run) => (
-                              <tr key={run.id} className="hover:bg-white/[0.025]">
-                                <td className="table-cell font-mono text-[10px] text-mint">{run.id}</td>
-                                <td className="table-cell text-[10px] text-slate-300">{run.agent}</td>
+                              <tr key={run.id} className="hover:bg-ink-900/[0.035]">
+                                <td className="table-cell font-mono text-[10px] text-pine">{run.id}</td>
+                                <td className="table-cell text-[10px] text-ink-700">{run.agent}</td>
                                 <td className="table-cell font-mono text-[10px]">{run.seed}</td>
                                 <td className="table-cell"><StatusPill status={run.status} /></td>
-                                <td className="table-cell font-mono text-sm text-slate-200">{run.score === null ? "—" : run.score.toFixed(1)}</td>
-                                <td className="table-cell text-[10px] text-fog">
+                                <td className="table-cell font-mono text-sm text-ink-800">{run.score === null ? "—" : run.score.toFixed(1)}</td>
+                                <td className="table-cell text-[10px] text-ink-500">
                                   {run.metrics
                                     ? run.metrics.packages_total !== undefined
                                       ? `${run.metrics.packages_delivered}/${run.metrics.packages_total} delivered`
@@ -422,7 +422,7 @@ export default function Compare() {
                                 </td>
                                 <td className="table-cell font-mono text-[10px]">{String(run.metrics?.steps ?? "n/a")}</td>
                                 <td className="table-cell text-right">
-                                  <Link to={`/runs/${run.id}`} className="inline-flex items-center gap-1 text-[10px] text-fog hover:text-mint">
+                                  <Link to={`/runs/${run.id}`} className="inline-flex items-center gap-1 text-[10px] text-ink-500 hover:text-pine">
                                     replay <ArrowRight className="h-3 w-3" />
                                   </Link>
                                 </td>
@@ -437,7 +437,7 @@ export default function Compare() {
                   <Panel>
                     <div className="flex items-center gap-2">
                       <Spinner label="Running experiment" />
-                      <span className="text-[10px] text-fog">Results appear as runs finish.</span>
+                      <span className="text-[10px] text-ink-500">Results appear as runs finish.</span>
                     </div>
                   </Panel>
                 )}
@@ -465,28 +465,28 @@ export default function Compare() {
                     key={run.id}
                     onClick={() => toggleRun(run.id)}
                     className={`flex w-full items-center gap-2 rounded border px-2 py-1.5 text-left transition ${
-                      active ? "border-mint/30 bg-mint/[0.05]" : "border-line/50 hover:border-slate-600"
+                      active ? "border-pine/30 bg-pine/[0.05]" : "border-line/50 hover:border-slate-600"
                     }`}
                   >
-                    <span className={`flex h-4 w-4 items-center justify-center rounded border ${active ? "border-mint bg-mint text-ink-950" : "border-line"}`}>
+                    <span className={`flex h-4 w-4 items-center justify-center rounded border ${active ? "border-pine bg-pine text-ink-950" : "border-line"}`}>
                       {active ? <CheckCircle2 className="h-3 w-3" /> : null}
                     </span>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-1.5">
-                        <span className="font-mono text-[10px] text-slate-300">{run.id}</span>
-                        <span className="text-[9px] text-slate-600">seed {run.seed}</span>
+                        <span className="font-mono text-[10px] text-ink-700">{run.id}</span>
+                        <span className="text-[9px] text-ink-400">seed {run.seed}</span>
                       </div>
-                      <div className="truncate text-[9px] text-fog">{run.agent.label}</div>
+                      <div className="truncate text-[9px] text-ink-500">{run.agent.label}</div>
                     </div>
-                    <span className="font-mono text-xs text-slate-300">{run.score === null ? "—" : run.score.toFixed(1)}</span>
+                    <span className="font-mono text-xs text-ink-700">{run.score === null ? "—" : run.score.toFixed(1)}</span>
                   </button>
                 );
               })}
-              {!runsLoading && runs.length === 0 ? <div className="px-2 py-4 text-[10px] text-slate-600">No completed runs yet.</div> : null}
+              {!runsLoading && runs.length === 0 ? <div className="px-2 py-4 text-[10px] text-ink-400">No completed runs yet.</div> : null}
             </div>
-            <div className="mt-2 flex items-center justify-between border-t border-line/60 px-1 pt-2 text-[9px] text-slate-600">
+            <div className="mt-2 flex items-center justify-between border-t border-line/60 px-1 pt-2 text-[9px] text-ink-400">
               <span>{selectedRuns.length}/3 selected</span>
-              <button className="inline-flex items-center gap-1 hover:text-slate-300" onClick={() => setSelectedRuns([])}>
+              <button className="inline-flex items-center gap-1 hover:text-ink-700" onClick={() => setSelectedRuns([])}>
                 <X className="h-3 w-3" /> clear
               </button>
             </div>
@@ -523,9 +523,9 @@ export default function Compare() {
                       <tbody>
                         {comparisonRows.map(([label, getter]) => (
                           <tr key={label as string}>
-                            <td className="table-cell text-[10px] uppercase tracking-[0.08em] text-fog">{label}</td>
+                            <td className="table-cell text-[10px] uppercase tracking-[0.08em] text-ink-500">{label}</td>
                             {selected.map((run) => (
-                              <td key={run.id} className="table-cell font-mono text-[10px] text-slate-300">
+                              <td key={run.id} className="table-cell font-mono text-[10px] text-ink-700">
                                 {getter(run)}
                               </td>
                             ))}
@@ -535,7 +535,7 @@ export default function Compare() {
                           <td className="table-cell" />
                           {selected.map((run) => (
                             <td key={run.id} className="table-cell">
-                              <Link to={`/runs/${run.id}`} className="inline-flex items-center gap-1 text-[10px] text-mint hover:underline">
+                              <Link to={`/runs/${run.id}`} className="inline-flex items-center gap-1 text-[10px] text-pine hover:underline">
                                 open replay <ArrowRight className="h-3 w-3" />
                               </Link>
                             </td>
@@ -559,11 +559,11 @@ export default function Compare() {
                       action={<StatusPill status={run.status} />}
                     >
                       <div className="space-y-1 text-[10px]">
-                        <div className="flex justify-between gap-2"><span className="text-fog">Agent</span><span className="text-slate-300">{run.agent.label}</span></div>
-                        <div className="flex justify-between gap-2"><span className="text-fog">Seed</span><span className="font-mono text-slate-300">{run.seed}</span></div>
-                        <div className="flex justify-between gap-2"><span className="text-fog">Terminal</span><span className="text-slate-300">{run.terminal_reason?.replace(/_/g, " ") || "—"}</span></div>
+                        <div className="flex justify-between gap-2"><span className="text-ink-500">Agent</span><span className="text-ink-700">{run.agent.label}</span></div>
+                        <div className="flex justify-between gap-2"><span className="text-ink-500">Seed</span><span className="font-mono text-ink-700">{run.seed}</span></div>
+                        <div className="flex justify-between gap-2"><span className="text-ink-500">Terminal</span><span className="text-ink-700">{run.terminal_reason?.replace(/_/g, " ") || "—"}</span></div>
                         {run.metrics?.failures?.slice(0, 2).map((failure) => (
-                          <div key={failure} className="pt-1 text-[9px] leading-relaxed text-amber/80">{failure}</div>
+                          <div key={failure} className="pt-1 text-[9px] leading-relaxed text-ochre/80">{failure}</div>
                         ))}
                       </div>
                     </Panel>

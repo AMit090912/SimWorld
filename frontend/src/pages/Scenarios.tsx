@@ -11,12 +11,12 @@ function Preview({ scenario }: { scenario: Scenario }) {
   const { data, loading } = useApiData(() => api.preview(scenario.id, 7), [scenario.id]);
   if (loading) {
     return (
-      <div className="flex h-full items-center justify-center bg-[#070d13]">
+      <div className="flex h-full items-center justify-center bg-[#E7DECD]">
         <Spinner label="Rendering map" />
       </div>
     );
   }
-  if (!data) return <div className="h-full bg-[#070d13]" />;
+  if (!data) return <div className="h-full bg-[#E7DECD]" />;
   return data.snapshot.kind === "city_logistics" ? (
     <CityMap state={data.snapshot} compact />
   ) : (
@@ -27,9 +27,9 @@ function Preview({ scenario }: { scenario: Scenario }) {
 function ScenarioCard({ scenario, index }: { scenario: Scenario; index: number }) {
   return (
     <article className="panel group flex flex-col overflow-hidden animate-fade-up" style={{ animationDelay: `${index * 45}ms` }}>
-      <div className="relative h-[200px] overflow-hidden border-b border-line/70 bg-[#070d13]">
+      <div className="relative h-[200px] overflow-hidden border-b border-line/70 bg-[#E7DECD]">
         <Preview scenario={scenario} />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#080d13] via-transparent to-transparent" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#FBF8F1] via-[#FBF8F1]/55 to-transparent" />
         <div className="absolute left-3 top-3 flex items-center gap-1.5">
           <span className={scenario.kind === "city_logistics" ? "chip-sky" : "chip-mint"}>
             {scenario.kind === "city_logistics" ? "Logistics" : "Traffic"}
@@ -47,18 +47,18 @@ function ScenarioCard({ scenario, index }: { scenario: Scenario; index: number }
           </span>
         </div>
         <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between gap-2">
-          <h3 className="text-sm font-semibold text-white">{scenario.name}</h3>
-          <span className="font-mono text-[9px] text-fog">{scenario.horizon_steps} ticks</span>
+          <h3 className="text-sm font-semibold text-ink-900">{scenario.name}</h3>
+          <span className="font-mono text-[9px] text-ink-500">{scenario.horizon_steps} ticks</span>
         </div>
       </div>
 
       <div className="flex flex-1 flex-col p-3.5">
-        <p className="text-[11px] leading-relaxed text-fog">{scenario.tagline}</p>
+        <p className="text-[11px] leading-relaxed text-ink-500">{scenario.tagline}</p>
 
         <div className="mt-2.5 space-y-1">
           {scenario.objectives.slice(0, 2).map((objective) => (
-            <div key={objective} className="flex items-start gap-1.5 text-[10px] leading-relaxed text-slate-400">
-              <ArrowRight className="mt-0.5 h-3 w-3 shrink-0 text-mint/70" />
+            <div key={objective} className="flex items-start gap-1.5 text-[10px] leading-relaxed text-ink-600">
+              <ArrowRight className="mt-0.5 h-3 w-3 shrink-0 text-pine/70" />
               {objective}
             </div>
           ))}
@@ -80,7 +80,7 @@ function ScenarioCard({ scenario, index }: { scenario: Scenario; index: number }
           <Link to={`/?scenario=${encodeURIComponent(scenario.id)}`} className="btn-primary !px-2.5 !py-1.5 !text-[11px]">
             Open in workspace <ArrowRight className="h-3 w-3" />
           </Link>
-          <Link to={`/runs?scenario=${encodeURIComponent(scenario.id)}`} className="text-[10px] text-fog hover:text-slate-200">
+          <Link to={`/runs?scenario=${encodeURIComponent(scenario.id)}`} className="text-[10px] text-ink-500 hover:text-ink-800">
             View runs
           </Link>
         </div>
@@ -125,8 +125,8 @@ export default function Scenarios() {
         group.items.length ? (
           <section key={group.title} className="mb-7">
             <div className="mb-2.5 flex items-baseline justify-between">
-              <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-300">{group.title}</h2>
-              <span className="text-[10px] text-fog">{group.caption}</span>
+              <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-700">{group.title}</h2>
+              <span className="text-[10px] text-ink-500">{group.caption}</span>
             </div>
             <div className="grid gap-3.5 md:grid-cols-2 xl:grid-cols-3">
               {group.items.map((scenario, index) => (
@@ -137,9 +137,9 @@ export default function Scenarios() {
         ) : null,
       )}
 
-      <div className="rounded-lg border border-line/70 bg-ink-900/40 px-4 py-3 text-[10px] leading-relaxed text-fog">
+      <div className="rounded-lg border border-line/70 bg-surface/40 px-4 py-3 text-[10px] leading-relaxed text-ink-500">
         Scenario ids are stable, versioned, and stored with every run. Add a new environment by implementing the
-        same <span className="font-mono text-slate-300">observation / legal actions / apply / metrics</span> contract —
+        same <span className="font-mono text-ink-700">observation / legal actions / apply / metrics</span> contract —
         the engine, API, replay, and comparison surfaces do not need to change.
       </div>
     </div>

@@ -2,12 +2,14 @@ import type { TrafficState } from "../../lib/types";
 import { nodeXY } from "../../lib/format";
 
 const PALETTE = {
-  roadCasing: "#0c141d",
-  road: "#1b2937",
-  mint: "#38e3ab",
-  sky: "#72a9ff",
-  amber: "#f5b84c",
-  coral: "#ff7272",
+  paper: "#E7DECD",
+  roadCasing: "#C4B395",
+  road: "#FBF8F1",
+  mint: "#1F5A4A",
+  sky: "#2E5A74",
+  amber: "#A9771F",
+  coral: "#A33A32",
+  line: "#B3A487",
 };
 
 export default function TrafficMap({
@@ -30,7 +32,7 @@ export default function TrafficMap({
   const incidentMap = new Map(state.incidents.map((incident) => [`${incident.intersection}:${incident.approach}`, incident]));
 
   return (
-    <div className="relative h-full w-full overflow-hidden rounded-lg bg-[#070d13]">
+    <div className="relative h-full w-full overflow-hidden rounded-md bg-[#E7DECD]">
       <svg
         viewBox={`0 0 ${width} ${height}`}
         preserveAspectRatio={fit === "contain" ? "xMidYMid meet" : compact ? "xMidYMid slice" : "xMidYMid meet"}
@@ -40,10 +42,10 @@ export default function TrafficMap({
       >
         <defs>
           <pattern id="tgrid" width="24" height="24" patternUnits="userSpaceOnUse">
-            <path d="M24 0 L0 0 0 24" fill="none" stroke="rgba(255,255,255,0.02)" strokeWidth="1" />
+            <path d="M24 0 L0 0 0 24" fill="none" stroke="rgba(30,39,36,0.04)" strokeWidth="1" />
           </pattern>
         </defs>
-        <rect width={width} height={height} fill="#070d13" />
+        <rect width={width} height={height} fill={PALETTE.paper} />
         <rect width={width} height={height} fill="url(#tgrid)" />
 
         {state.intersections.map((from) => {
@@ -60,7 +62,7 @@ export default function TrafficMap({
                 <g key={`${from.id}-${to.id}`}>
                   <line x1={ax} y1={ay} x2={bx} y2={by} stroke={PALETTE.roadCasing} strokeWidth={compact ? 18 : 22} strokeLinecap="round" />
                   <line x1={ax} y1={ay} x2={bx} y2={by} stroke={PALETTE.road} strokeWidth={compact ? 11 : 14} strokeLinecap="round" />
-                  <line x1={ax} y1={ay} x2={bx} y2={by} stroke="rgba(255,255,255,0.07)" strokeWidth={1} strokeDasharray="4 8" />
+                  <line x1={ax} y1={ay} x2={bx} y2={by} stroke="rgba(30,39,36,0.12)" strokeWidth={1} strokeDasharray="4 8" />
                 </g>
               );
             });
@@ -85,8 +87,8 @@ export default function TrafficMap({
           });
           return (
             <g key={intersection.id}>
-              <circle cx={x} cy={y} r={inner + 4} fill="#0b141d" stroke="#22313f" strokeWidth={1} />
-              <circle cx={x} cy={y} r={inner} fill="rgba(10,20,29,0.9)" stroke={phaseColor} strokeWidth={1.4} opacity={0.95} />
+              <circle cx={x} cy={y} r={inner + 4} fill={PALETTE.paper} stroke={PALETTE.line} strokeWidth={1} />
+              <circle cx={x} cy={y} r={inner} fill="#F8F3E9" stroke={phaseColor} strokeWidth={1.4} opacity={0.95} />
               {approaches.map((bar) => {
                 const blocked = incidentMap.get(`${intersection.id}:${bar.key}`);
                 return (
@@ -97,7 +99,7 @@ export default function TrafficMap({
                     width={bar.w}
                     height={bar.h}
                     rx={1.5}
-                    fill={blocked ? "rgba(255,114,114,0.55)" : "rgba(245,184,76,0.75)"}
+                    fill={blocked ? "rgba(163,58,50,0.55)" : "rgba(169,119,31,0.72)"}
                   >
                     <title>{`${intersection.id} ${bar.key}: ${intersection.queues[bar.key]} waiting`}</title>
                   </rect>
@@ -113,7 +115,7 @@ export default function TrafficMap({
                     x={cx}
                     y={cy + 2}
                     textAnchor="middle"
-                    fill="#0a0f14"
+                    fill="#1E2724"
                     fontSize={compact ? 5 : 6}
                     fontFamily="ui-monospace"
                     fontWeight={700}
@@ -142,12 +144,12 @@ export default function TrafficMap({
                 {intersection.phase}
               </text>
               {!compact ? (
-                <text x={x} y={y + inner + 14} textAnchor="middle" fill="#5e7587" fontSize={6} fontFamily="ui-monospace">
+                <text x={x} y={y + inner + 14} textAnchor="middle" fill="#6C7870" fontSize={6} fontFamily="ui-monospace">
                   {intersection.id}
                 </text>
               ) : null}
               {!compact ? (
-                <text x={x} y={y - inner - 4} textAnchor="middle" fill="#647c8f" fontSize={5.5} fontFamily="ui-monospace">
+                <text x={x} y={y - inner - 4} textAnchor="middle" fill="#6C7870" fontSize={5.5} fontFamily="ui-monospace">
                   {total} queued
                 </text>
               ) : null}
@@ -157,15 +159,15 @@ export default function TrafficMap({
         })}
       </svg>
       {!compact ? (
-      <div className="pointer-events-none absolute bottom-2 right-2 flex items-center gap-2 rounded border border-line/60 bg-ink-950/80 px-2 py-1 font-mono text-[9px]">
-        <span className="flex items-center gap-1 text-mint">
-          <span className="h-1.5 w-1.5 rounded-full bg-mint" /> NS
+      <div className="pointer-events-none absolute bottom-2 right-2 flex items-center gap-2 rounded border border-line/60 bg-paper/80 px-2 py-1 font-mono text-[9px]">
+        <span className="flex items-center gap-1 text-pine">
+          <span className="h-1.5 w-1.5 rounded-full bg-pine" /> NS
         </span>
-        <span className="flex items-center gap-1 text-sky">
-          <span className="h-1.5 w-1.5 rounded-full bg-sky" /> EW
+        <span className="flex items-center gap-1 text-steel">
+          <span className="h-1.5 w-1.5 rounded-full bg-steel" /> EW
         </span>
-        <span className="flex items-center gap-1 text-amber">
-          <span className="h-1.5 w-1.5 rounded-full bg-amber" /> queue
+        <span className="flex items-center gap-1 text-ochre">
+          <span className="h-1.5 w-1.5 rounded-full bg-ochre" /> queue
         </span>
       </div>
       ) : null}

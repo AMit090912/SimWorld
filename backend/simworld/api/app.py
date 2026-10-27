@@ -15,7 +15,6 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from ..agents.base import AgentError
-from ..agents.llm import probe_model, llm_config_from_env
 from ..config import Settings, load_settings
 from ..service import RunService
 from ..store import Store
@@ -217,10 +216,15 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         def spa(full_path: str):
             if full_path.startswith("api/"):
                 raise HTTPException(status_code=404, detail="Not found.")
-            candidate = static_dir / full_path
-            if full_path and candidate.is_file():
+            root = static_dir.resolve()
+            candidate = (root / full_path).resolve() if full_path else root
+            try:
+                candidate.relative_to(root)
+            except ValueError:
+                candidate = root
+            if candidate != root and candidate.is_file():
                 return FileResponse(candidate)
-            return FileResponse(static_dir / "index.html")
+            return FileResponse(root / "index.html")
     else:
         @app.get("/", include_in_schema=False)
         def root() -> dict[str, Any]:

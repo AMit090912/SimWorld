@@ -126,7 +126,7 @@ export default function Docs() {
               ["alan", "Alan integration"],
               ["limits", "Limitations"],
             ].map(([id, label]) => (
-              <a key={id} href={`#${id}`} className="block rounded px-2 py-1.5 text-fog transition hover:bg-white/[0.03] hover:text-slate-200">
+              <a key={id} href={`#${id}`} className="block rounded px-2 py-1.5 text-ink-500 transition hover:bg-ink-900/[0.035] hover:text-ink-800">
                 {label}
               </a>
             ))}
@@ -136,23 +136,23 @@ export default function Docs() {
         <div className="min-w-0 space-y-4">
           <section id="overview" className="panel p-4">
             <div className="flex items-center gap-2">
-              <BookOpen className="h-4 w-4 text-mint" />
-              <h2 className="text-sm font-semibold text-white">What this is</h2>
+              <BookOpen className="h-4 w-4 text-pine" />
+              <h2 className="text-sm font-semibold text-ink-900">What this is</h2>
             </div>
-            <p className="mt-2 text-[11px] leading-relaxed text-fog">
+            <p className="mt-2 text-[11px] leading-relaxed text-ink-500">
               SimWorld is a real simulation runtime for agents. The engine owns the world; the agent only proposes
               actions. Every tick is recorded with its resulting state, so scores and replays are evidence rather than
-              narration. Two environments ship today: <strong className="text-slate-300">city logistics</strong> and{" "}
-              <strong className="text-slate-300">traffic signal control</strong>.
+              narration. Two environments ship today: <strong className="text-ink-700">city logistics</strong> and{" "}
+              <strong className="text-ink-700">traffic signal control</strong>.
             </p>
             <div className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
               {ARCHITECTURE.map((item) => {
                 const Icon = item.icon;
                 return (
-                  <div key={item.title} className="rounded border border-line/60 bg-ink-900/50 p-2.5">
-                    <Icon className="h-4 w-4 text-mint" />
-                    <div className="mt-1.5 text-[11px] font-medium text-slate-200">{item.title}</div>
-                    <div className="text-[9px] leading-relaxed text-slate-500">{item.detail}</div>
+                  <div key={item.title} className="rounded border border-line/60 bg-surface/50 p-2.5">
+                    <Icon className="h-4 w-4 text-pine" />
+                    <div className="mt-1.5 text-[11px] font-medium text-ink-800">{item.title}</div>
+                    <div className="text-[9px] leading-relaxed text-ink-500">{item.detail}</div>
                   </div>
                 );
               })}
@@ -167,36 +167,36 @@ export default function Docs() {
           <section id="start" className="panel p-4">
             <SectionTitle icon={<Terminal className="h-4 w-4" />} title="Run it locally" action={<CopyButton text={QUICKSTART} />} />
             <CodeBlock code={QUICKSTART} />
-            <div className="mt-2 flex flex-wrap items-center gap-2 text-[10px] text-fog">
+            <div className="mt-2 flex flex-wrap items-center gap-2 text-[10px] text-ink-500">
               <span className="chip">Python 3.10+</span>
               <span className="chip">Node 20+</span>
               <span className="chip">SQLite</span>
               <span className="chip">no cloud credentials required for built-ins</span>
             </div>
-            <p className="mt-2 text-[10px] leading-relaxed text-slate-500">
+            <p className="mt-2 text-[10px] leading-relaxed text-ink-500">
               The backend creates its SQLite file automatically. In production, build the frontend first; FastAPI serves
-              <span className="font-mono text-slate-400"> frontend/dist</span> and the SPA routes from the same origin.
+              <span className="font-mono text-ink-600"> frontend/dist</span> and the SPA routes from the same origin.
             </p>
           </section>
 
           <section id="loop" className="panel p-4">
             <SectionTitle icon={<GitBranch className="h-4 w-4" />} title="The simulation loop" />
-            <pre className="mt-2 overflow-x-auto rounded border border-line/60 bg-ink-950/70 p-3 font-mono text-[9px] leading-relaxed text-mint/90">{FLOW}</pre>
-            <div className="mt-3 grid gap-2 text-[10px] leading-relaxed text-fog sm:grid-cols-3">
+            <pre className="mt-2 overflow-x-auto rounded border border-line/60 bg-paper-200 p-3 font-mono text-[10px] leading-relaxed text-ink-700">{FLOW}</pre>
+            <div className="mt-3 grid gap-2 text-[10px] leading-relaxed text-ink-500 sm:grid-cols-3">
               <div className="rounded border border-line/50 p-2">
-                <div className="mb-1 font-semibold text-slate-300">1 · Observe</div>
+                <div className="mb-1 font-semibold text-ink-700">1 · Observe</div>
                 The agent receives a scenario-specific observation plus the actions the engine will accept right now.
               </div>
               <div className="rounded border border-line/50 p-2">
-                <div className="mb-1 font-semibold text-slate-300">2 · Validate</div>
+                <div className="mb-1 font-semibold text-ink-700">2 · Validate</div>
                 Shape is checked first, then world rules: adjacency, road status, fuel, cargo, capacity, signal timing.
               </div>
               <div className="mb-0 rounded border border-line/50 p-2">
-                <div className="mb-1 font-semibold text-slate-300">3 · Record</div>
+                <div className="mb-1 font-semibold text-ink-700">3 · Record</div>
                 The tick, action, result, latency, resulting state, and hash are persisted before the next observation.
               </div>
             </div>
-            <p className="mt-2 text-[10px] leading-relaxed text-slate-500">
+            <p className="mt-2 text-[10px] leading-relaxed text-ink-500">
               Invalid actions still consume a tick. That is deliberate: a planner that repeatedly proposes illegal moves
               loses time, and the metric shows it.
             </p>
@@ -214,8 +214,8 @@ export default function Docs() {
                 <CodeBlock code={PROTOCOL_ACTION} compact />
               </div>
             </div>
-            <p className="mt-2 text-[10px] leading-relaxed text-fog">
-              Respond with <span className="font-mono text-slate-300">{`{"action": {...}, "reasoning": "..."}`}</span>. Reasoning is
+            <p className="mt-2 text-[10px] leading-relaxed text-ink-500">
+              Respond with <span className="font-mono text-ink-700">{`{"action": {...}, "reasoning": "..."}`}</span>. Reasoning is
               stored and shown in the replay; it never affects the score. Unknown action types or fields are rejected at the
               schema boundary.
             </p>
@@ -229,8 +229,8 @@ export default function Docs() {
                 <CodeBlock code={CURL} compact />
               </div>
             </div>
-            <div className="mt-3 rounded border border-line/60 bg-ink-900/40 p-2.5 text-[10px] leading-relaxed text-fog">
-              <div className="mb-1 flex items-center gap-1.5 font-semibold text-slate-300"><ShieldCheck className="h-3 w-3 text-mint" /> Failure policy</div>
+            <div className="mt-3 rounded border border-line/60 bg-surface/40 p-2.5 text-[10px] leading-relaxed text-ink-500">
+              <div className="mb-1 flex items-center gap-1.5 font-semibold text-ink-700"><ShieldCheck className="h-3 w-3 text-pine" /> Failure policy</div>
               Timeout, non-JSON, a missing action, or an oversized response counts as an agent error. SimWorld applies one
               deterministic fallback action, logs the error, and aborts the run after three consecutive failures. Malformed
               actions never mutate the world.
@@ -238,24 +238,24 @@ export default function Docs() {
           </section>
 
           <section id="metrics" className="panel p-4">
-            <SectionTitle icon={<Cpu className="h-4 w-4" />} title="Metrics and scoring" action={<span className="text-[9px] text-slate-600">definitions served by /api/metrics</span>} />
+            <SectionTitle icon={<Cpu className="h-4 w-4" />} title="Metrics and scoring" action={<span className="text-[9px] text-ink-400">definitions served by /api/metrics</span>} />
             {loading ? <Spinner label="Loading metric definitions" /> : null}
             <div className="mt-2 grid gap-2 md:grid-cols-2">
               {(metricData?.metrics ?? []).map((metric: MetricDefinition) => (
-                <div key={metric.key} className="rounded border border-line/50 bg-ink-900/40 p-2.5">
+                <div key={metric.key} className="rounded border border-line/50 bg-surface/40 p-2.5">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-[11px] font-medium text-slate-200">{metric.label}</span>
+                    <span className="text-[11px] font-medium text-ink-800">{metric.label}</span>
                     <span className="chip !text-[9px]">{metric.unit}</span>
                   </div>
-                  <p className="mt-1 text-[9px] leading-relaxed text-fog">{metric.description}</p>
-                  <div className="mt-1 flex items-center gap-2 text-[8px] uppercase tracking-[0.1em] text-slate-600">
+                  <p className="mt-1 text-[9px] leading-relaxed text-ink-500">{metric.description}</p>
+                  <div className="mt-1 flex items-center gap-2 text-[8px] uppercase tracking-[0.1em] text-ink-400">
                     <span>{metric.direction} is better</span>
                     <span>{metric.weight}</span>
                   </div>
                 </div>
               ))}
             </div>
-            <p className="mt-2 text-[10px] leading-relaxed text-slate-500">
+            <p className="mt-2 text-[10px] leading-relaxed text-ink-500">
               The composite score never hides failures: the UI always shows component metrics and the failure list next to
               it. Scores are computed from recorded transitions only. An agent's own claim is never scored.
             </p>
@@ -263,24 +263,24 @@ export default function Docs() {
 
           <section id="repro" className="panel p-4">
             <SectionTitle icon={<CheckCircle2 className="h-4 w-4" />} title="Reproducibility" />
-            <div className="mt-2 grid gap-2 text-[10px] leading-relaxed text-fog md:grid-cols-2">
+            <div className="mt-2 grid gap-2 text-[10px] leading-relaxed text-ink-500 md:grid-cols-2">
               <div className="rounded border border-line/50 p-2.5">
-                <div className="mb-1 font-semibold text-slate-300">Seeded initial conditions</div>
+                <div className="mb-1 font-semibold text-ink-700">Seeded initial conditions</div>
                 Scenario layout, package-to-destination assignment, deadlines, station stock, and the event schedule are
                 generated once from the seed and stored in the run configuration.
               </div>
               <div className="rounded border border-line/50 p-2.5">
-                <div className="mb-1 font-semibold text-slate-300">Pure transitions</div>
+                <div className="mb-1 font-semibold text-ink-700">Pure transitions</div>
                 The engine performs no random draws while stepping. Given the same config and action sequence, the state
                 hash is identical — covered by engine and API tests.
               </div>
               <div className="rounded border border-line/50 p-2.5">
-                <div className="mb-1 font-semibold text-slate-300">Exact replay</div>
+                <div className="mb-1 font-semibold text-ink-700">Exact replay</div>
                 Every step stores its action, agent decision, result, and resulting state. Replay reads those recorded
                 transitions rather than re-running a separate animation.
               </div>
               <div className="rounded border border-line/50 p-2.5">
-                <div className="mb-1 font-semibold text-slate-300">Same-seed comparisons</div>
+                <div className="mb-1 font-semibold text-ink-700">Same-seed comparisons</div>
                 Experiments pair every seed with every selected agent. Comparing different seeds is allowed but labelled,
                 because it is not an equivalent-condition comparison.
               </div>
@@ -293,7 +293,7 @@ export default function Docs() {
 
           <section id="security" className="panel p-4">
             <SectionTitle icon={<ShieldCheck className="h-4 w-4" />} title="Security boundaries" />
-            <div className="mt-2 grid gap-2 text-[10px] leading-relaxed text-fog md:grid-cols-2">
+            <div className="mt-2 grid gap-2 text-[10px] leading-relaxed text-ink-500 md:grid-cols-2">
               {[
                 ["Untrusted agents", "No direct database or world access. Only observations out, one validated action in."],
                 ["SSRF screening", "http(s) only, no credentials in URLs, no redirects, loopback disabled outside dev, private/link-local/metadata IPs blocked."],
@@ -303,14 +303,14 @@ export default function Docs() {
                 ["State integrity", "Invalid or failed actions cannot mutate the world; the fallback policy is recorded per step."],
               ].map(([title, detail]) => (
                 <div key={title} className="rounded border border-line/50 p-2.5">
-                  <div className="mb-1 flex items-center gap-1.5 font-semibold text-slate-300">
-                    <KeyRound className="h-3 w-3 text-mint" /> {title}
+                  <div className="mb-1 flex items-center gap-1.5 font-semibold text-ink-700">
+                    <KeyRound className="h-3 w-3 text-pine" /> {title}
                   </div>
                   {detail}
                 </div>
               ))}
             </div>
-            <p className="mt-2 text-[10px] leading-relaxed text-slate-500">
+            <p className="mt-2 text-[10px] leading-relaxed text-ink-500">
               Simulated success is not evidence that an agent is safe in the real world. SimWorld measures behaviour inside
               a specific, deliberately simplified model.
             </p>
@@ -318,15 +318,15 @@ export default function Docs() {
 
           <section id="alan" className="panel p-4">
             <SectionTitle icon={<Workflow className="h-4 w-4" />} title="Alan integration" />
-            <p className="mt-2 text-[11px] leading-relaxed text-fog">
-              SimWorld ships an <strong className="text-slate-300">MCP server</strong> that exposes the evaluation
+            <p className="mt-2 text-[11px] leading-relaxed text-ink-500">
+              SimWorld ships an <strong className="text-ink-700">MCP server</strong> that exposes the evaluation
               workflow as tools an Alan agent can call: list scenarios, launch a run, run a multi-seed experiment, fetch
               metrics, and explain a failure from stored evidence. The same operations are available over the HTTP API.
             </p>
             <div className="mt-2 grid gap-2 md:grid-cols-2">
-              <div className="rounded border border-line/50 bg-ink-900/40 p-2.5 text-[10px] leading-relaxed text-fog">
-                <div className="mb-1 font-semibold text-slate-300">MCP tools</div>
-                <ul className="space-y-0.5 font-mono text-[9px] text-slate-400">
+              <div className="rounded border border-line/50 bg-surface/40 p-2.5 text-[10px] leading-relaxed text-ink-500">
+                <div className="mb-1 font-semibold text-ink-700">MCP tools</div>
+                <ul className="space-y-0.5 font-mono text-[9px] text-ink-600">
                   <li>simworld_list_scenarios</li>
                   <li>simworld_start_run</li>
                   <li>simworld_run_experiment</li>
@@ -334,11 +334,11 @@ export default function Docs() {
                   <li>simworld_explain_failure</li>
                 </ul>
               </div>
-              <div className="rounded border border-line/50 bg-ink-900/40 p-2.5 text-[10px] leading-relaxed text-fog">
-                <div className="mb-1 font-semibold text-slate-300">What stays honest</div>
+              <div className="rounded border border-line/50 bg-surface/40 p-2.5 text-[10px] leading-relaxed text-ink-500">
+                <div className="mb-1 font-semibold text-ink-700">What stays honest</div>
                 Model output is only a proposed action. The engine validates and records it. The integration is verified at
                 the protocol level in this repository; connecting it to a cloud Alan team requires a publicly reachable
-                MCP URL. See <span className="font-mono text-slate-400">docs/ALAN_INTEGRATION.md</span>.
+                MCP URL. See <span className="font-mono text-ink-600">docs/ALAN_INTEGRATION.md</span>.
               </div>
             </div>
             <div className="mt-2">
@@ -349,7 +349,7 @@ export default function Docs() {
 
           <section id="limits" className="panel p-4">
             <SectionTitle icon={<AlertTriangleIcon />} title="Known limitations" />
-            <ul className="mt-2 space-y-1.5 text-[10px] leading-relaxed text-fog">
+            <ul className="mt-2 space-y-1.5 text-[10px] leading-relaxed text-ink-500">
               {[
                 "Logistics is single-vehicle. The scenario abstraction supports multiple entities, but cooperative multi-agent logistics is not implemented.",
                 "External agents run on the same host by default in development; loopback allowlisting must be disabled for untrusted public deployments.",
@@ -359,16 +359,16 @@ export default function Docs() {
                 "Scores are environment-specific and not comparable across different scenarios.",
               ].map((limitation) => (
                 <li key={limitation} className="flex items-start gap-1.5">
-                  <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-amber" />
+                  <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-ochre" />
                   {limitation}
                 </li>
               ))}
             </ul>
           </section>
 
-          <div className="flex items-center justify-between rounded-lg border border-line/70 bg-ink-900/40 px-4 py-3 text-[10px] text-fog">
+          <div className="flex items-center justify-between rounded-lg border border-line/70 bg-surface/40 px-4 py-3 text-[10px] text-ink-500">
             <span>MIT licensed · open source · built for reproducible agent evaluation</span>
-            <Link to="/" className="inline-flex items-center gap-1 text-mint hover:underline">
+            <Link to="/" className="inline-flex items-center gap-1 text-pine hover:underline">
               Workspace <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
@@ -382,8 +382,8 @@ function SectionTitle({ icon, title, action }: { icon: ReactNode; title: string;
   return (
     <div className="flex items-center justify-between gap-2">
       <div className="flex items-center gap-2">
-        <span className="text-mint">{icon}</span>
-        <h2 className="text-sm font-semibold text-white">{title}</h2>
+        <span className="text-pine">{icon}</span>
+        <h2 className="text-sm font-semibold text-ink-900">{title}</h2>
       </div>
       {action}
     </div>
@@ -393,7 +393,7 @@ function SectionTitle({ icon, title, action }: { icon: ReactNode; title: string;
 function CodeBlock({ code, compact = false }: { code: string; compact?: boolean }) {
   return (
     <div className="relative">
-      <pre className={`overflow-x-auto rounded border border-line/60 bg-ink-950/70 p-2.5 font-mono ${compact ? "text-[9px]" : "text-[10px]"} leading-relaxed text-slate-400`}>
+      <pre className={`overflow-x-auto rounded border border-line/60 bg-paper-200 p-2.5 font-mono ${compact ? "text-[10px]" : "text-[11px]"} leading-relaxed text-ink-700`}>
         {code}
       </pre>
       <div className="absolute right-1.5 top-1.5 opacity-70">
@@ -404,5 +404,5 @@ function CodeBlock({ code, compact = false }: { code: string; compact?: boolean 
 }
 
 function AlertTriangleIcon() {
-  return <span className="text-amber">⚠</span>;
+  return <span className="text-ochre">⚠</span>;
 }

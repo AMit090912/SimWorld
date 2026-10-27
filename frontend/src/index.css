@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    color-scheme: dark;
+    color-scheme: light;
   }
 
   html,
@@ -14,10 +14,11 @@
   }
 
   body {
-    @apply bg-ink-950 text-slate-200 antialiased;
+    @apply bg-paper text-ink-800 antialiased;
     background-image:
-      radial-gradient(1100px 560px at 78% -8%, rgba(56, 227, 171, 0.07), transparent 62%),
-      radial-gradient(900px 520px at 4% 4%, rgba(114, 169, 255, 0.055), transparent 58%);
+      linear-gradient(rgba(30, 39, 36, 0.028) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(30, 39, 36, 0.028) 1px, transparent 1px);
+    background-size: 44px 44px;
     background-attachment: fixed;
   }
 
@@ -27,26 +28,39 @@
     inset: 0;
     pointer-events: none;
     z-index: 0;
-    background-image:
-      linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
-    background-size: 56px 56px;
-    mask-image: radial-gradient(900px 620px at 50% 0%, black, transparent 85%);
+    background-image: radial-gradient(1200px 700px at 50% -20%, rgba(255, 255, 255, 0.5), transparent 70%);
+  }
+
+  /*
+   * The lab UI uses a dense 9-11px type scale. Zoom the desktop canvas as a
+   * whole so labels, controls, and map annotations stay legible on large
+   * displays without changing the component layout or the mobile view.
+   */
+  @media (min-width: 1366px) {
+    body {
+      zoom: 1.2;
+    }
+  }
+
+  @media (min-width: 1024px) and (max-width: 1365px) {
+    body {
+      zoom: 1.12;
+    }
   }
 
   ::selection {
-    background: rgba(56, 227, 171, 0.25);
-    color: #eafff7;
+    background: rgba(200, 85, 43, 0.22);
+    color: #18211f;
   }
 
   :focus-visible {
-    outline: 2px solid rgba(56, 227, 171, 0.65);
+    outline: 2px solid rgba(200, 85, 43, 0.6);
     outline-offset: 2px;
   }
 
   * {
     scrollbar-width: thin;
-    scrollbar-color: #1f3140 transparent;
+    scrollbar-color: #cfc5b2 transparent;
   }
 
   *::-webkit-scrollbar {
@@ -55,22 +69,28 @@
   }
 
   *::-webkit-scrollbar-thumb {
-    background: #1f3140;
+    background: #cfc5b2;
     border-radius: 8px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply text-ink-900;
   }
 }
 
 @layer components {
   .panel {
-    @apply relative rounded-xl border border-line/80 bg-ink-850/85 shadow-panel;
+    @apply relative rounded-lg border border-line bg-surface shadow-panel;
   }
 
   .panel-flat {
-    @apply rounded-lg border border-line/70 bg-ink-900/60;
+    @apply rounded-md border border-line/80 bg-paper-100;
   }
 
   .label {
-    @apply text-2xs font-semibold uppercase tracking-[0.16em] text-fog;
+    @apply text-2xs font-semibold uppercase tracking-[0.16em] text-ink-500;
   }
 
   .mono {
@@ -83,76 +103,116 @@
   }
 
   .btn-primary {
-    @apply btn border-mint/70 bg-mint text-ink-950 hover:bg-[#5cf0bf] active:translate-y-px;
+    @apply btn border-accent bg-accent text-paper-50 hover:border-accent-dark hover:bg-accent-dark active:translate-y-px;
   }
 
   .btn-ghost {
-    @apply btn border-line bg-ink-800/70 text-slate-300 hover:border-slate-600 hover:bg-ink-750 hover:text-white;
+    @apply btn border-line bg-surface text-ink-700 hover:border-line-strong hover:bg-paper-200 hover:text-ink-900;
   }
 
   .btn-danger {
-    @apply btn border-coral/40 bg-coral/10 text-coral hover:border-coral/70 hover:bg-coral/15;
+    @apply btn border-brick/40 bg-brick/[0.06] text-brick hover:border-brick/70 hover:bg-brick/10;
   }
 
   .btn-icon {
-    @apply inline-flex h-8 w-8 items-center justify-center rounded-md border border-line bg-ink-800/70 text-slate-400 transition hover:border-slate-600 hover:text-white disabled:opacity-40;
+    @apply inline-flex h-8 w-8 items-center justify-center rounded-md border border-line bg-surface text-ink-500 transition hover:border-line-strong hover:bg-paper-200 hover:text-ink-900 disabled:opacity-40;
   }
 
   .input {
-    @apply w-full rounded-md border border-line bg-ink-950/70 px-2.5 py-2 text-xs text-slate-200 placeholder:text-slate-600
-      focus:border-mint/50 focus:outline-none focus:ring-1 focus:ring-mint/30;
+    @apply w-full rounded-md border border-line bg-paper-50 px-2.5 py-2 text-xs text-ink-900 placeholder:text-ink-400
+      focus:border-accent/60 focus:outline-none focus:ring-1 focus:ring-accent/20;
   }
 
   .select {
     @apply input appearance-none pr-7;
-    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b9dae' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235F6B64' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 0.6rem center;
     background-size: 12px;
   }
 
   .chip {
-    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-ink-800/80 px-2 py-0.5 text-2xs font-medium text-slate-400;
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-paper-200/70 px-2 py-0.5 text-2xs font-medium text-ink-600;
   }
 
   .chip-mint {
-    @apply chip border-mint/30 bg-mint/10 text-mint;
+    @apply chip border-pine/25 bg-pine-soft text-pine;
   }
 
   .chip-amber {
-    @apply chip border-amber/30 bg-amber/10 text-amber;
+    @apply chip border-ochre/25 bg-ochre-soft text-ochre;
   }
 
   .chip-coral {
-    @apply chip border-coral/30 bg-coral/10 text-coral;
+    @apply chip border-brick/25 bg-brick-soft text-brick;
   }
 
   .chip-sky {
-    @apply chip border-sky/30 bg-sky/10 text-sky;
+    @apply chip border-steel/25 bg-steel-soft text-steel;
   }
 
   .divider {
-    @apply h-px w-full bg-line/70;
+    @apply h-px w-full bg-line/80;
   }
 
   .stat-value {
-    @apply font-mono text-2xl font-semibold tabular-nums tracking-tight text-white;
+    @apply font-mono text-2xl font-semibold tabular-nums tracking-tight text-ink-900;
   }
 
   .link {
-    @apply text-mint underline-offset-4 transition hover:underline;
+    @apply text-accent underline-offset-4 transition hover:underline;
   }
 
   .table-head {
-    @apply border-b border-line/70 px-3 py-2 text-left text-2xs font-semibold uppercase tracking-[0.14em] text-fog;
+    @apply border-b border-line px-3 py-2 text-left text-2xs font-semibold uppercase tracking-[0.14em] text-ink-500;
   }
 
   .table-cell {
-    @apply border-b border-line/40 px-3 py-2.5 text-xs text-slate-300;
+    @apply border-b border-line/60 px-3 py-2.5 text-xs text-ink-700;
+  }
+
+  .range {
+    @apply h-5 w-full cursor-pointer appearance-none bg-transparent;
+  }
+
+  .range::-webkit-slider-runnable-track {
+    height: 3px;
+    border-radius: 2px;
+    background: #d8cfbd;
+  }
+
+  .range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 14px;
+    width: 14px;
+    margin-top: -5.5px;
+    border-radius: 999px;
+    border: 2px solid #fbf8f1;
+    background: #c8552b;
+    box-shadow: 0 0 0 1px #c8552b;
+  }
+
+  .range::-moz-range-track {
+    height: 3px;
+    border-radius: 2px;
+    background: #d8cfbd;
+  }
+
+  .range::-moz-range-thumb {
+    height: 12px;
+    width: 12px;
+    border-radius: 999px;
+    border: 2px solid #fbf8f1;
+    background: #c8552b;
+    box-shadow: 0 0 0 1px #c8552b;
   }
 
   .kbd {
-    @apply rounded border border-line bg-ink-950 px-1.5 py-0.5 font-mono text-[10px] text-slate-400;
+    @apply rounded border border-line bg-paper-50 px-1.5 py-0.5 font-mono text-[10px] text-ink-500;
+  }
+
+  .display {
+    @apply font-serif tracking-[-0.01em];
   }
 }
 
@@ -168,12 +228,5 @@
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
-  }
-
-  .map-grid {
-    background-image:
-      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 28px 28px;
   }
 }

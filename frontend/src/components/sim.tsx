@@ -33,17 +33,17 @@ export function StatusPill({ status }: { status: string }) {
   const tone = statusTone(status);
   const cls =
     tone === "mint"
-      ? "border-mint/40 bg-mint/10 text-mint"
+      ? "border-pine/40 bg-pine/10 text-pine"
       : tone === "amber"
-        ? "border-amber/40 bg-amber/10 text-amber"
+        ? "border-ochre/40 bg-ochre/10 text-ochre"
         : tone === "coral"
-          ? "border-coral/40 bg-coral/10 text-coral"
+          ? "border-brick/40 bg-brick/10 text-brick"
           : tone === "sky"
-            ? "border-sky/40 bg-sky/10 text-sky"
-            : "border-line bg-ink-800 text-fog";
+            ? "border-steel/40 bg-steel/10 text-steel"
+            : "border-line bg-paper-200 text-ink-500";
   return (
     <span className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[10px] font-semibold capitalize ${cls}`}>
-      <span className={`h-1.5 w-1.5 rounded-full ${tone === "sky" ? "animate-pulse-dot bg-sky" : tone === "mint" ? "bg-mint" : tone === "amber" ? "bg-amber" : tone === "coral" ? "bg-coral" : "bg-fog"}`} />
+      <span className={`h-1.5 w-1.5 rounded-full ${tone === "sky" ? "animate-pulse-dot bg-steel" : tone === "mint" ? "bg-pine" : tone === "amber" ? "bg-ochre" : tone === "coral" ? "bg-brick" : "bg-fog"}`} />
       {status}
     </span>
   );
@@ -110,7 +110,7 @@ export function RunControls({
     <div className="space-y-3">
       <div className="flex flex-wrap items-center gap-1.5">
         {finished ? (
-          <span className={`inline-flex h-9 items-center gap-1.5 rounded-md border px-3 text-xs font-semibold ${status === "failed" ? "border-coral/40 bg-coral/10 text-coral" : "border-mint/40 bg-mint/10 text-mint"}`}>
+          <span className={`inline-flex h-9 items-center gap-1.5 rounded-md border px-3 text-xs font-semibold ${status === "failed" ? "border-brick/40 bg-brick/10 text-brick" : "border-pine/40 bg-pine/10 text-pine"}`}>
             {status === "failed" ? "run failed" : "run complete"}
           </span>
         ) : running ? (
@@ -129,7 +129,7 @@ export function RunControls({
           <RotateCcw className="h-3.5 w-3.5" /> Reset
         </button>
         <div className="ml-auto flex items-center gap-1.5">
-          <span className="text-[9px] uppercase tracking-[0.14em] text-slate-500">tick</span>
+          <span className="text-[9px] uppercase tracking-[0.14em] text-ink-500">tick</span>
           <select className="select !w-[74px] !py-1 !text-[10px]" value={speed} onChange={(event) => onSpeed(Number(event.target.value))}>
             <option value={0}>max</option>
             <option value={150}>150 ms</option>
@@ -141,13 +141,13 @@ export function RunControls({
       </div>
 
       <div>
-        <div className="mb-1 flex items-center justify-between text-[10px] text-fog">
+        <div className="mb-1 flex items-center justify-between text-[10px] text-ink-500">
           <span>shift clock {clock(0)} → {clock(horizon * 2)}</span>
           <span className="font-mono">{step}/{horizon}</span>
         </div>
-        <div className="h-1 overflow-hidden rounded-full bg-ink-950">
+        <div className="h-1 overflow-hidden rounded-full bg-paper">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-mint/60 to-mint transition-all"
+            className="h-full rounded-full bg-gradient-to-r from-pine/50 to-pine transition-all"
             style={{ width: `${Math.min(100, (step / Math.max(1, horizon)) * 100)}%` }}
           />
         </div>
@@ -155,13 +155,13 @@ export function RunControls({
 
       <div>
         <div className="label mb-1.5 flex items-center gap-1.5">
-          <Zap className="h-3 w-3 text-amber" /> inject disruption
+          <Zap className="h-3 w-3 text-ochre" /> inject disruption
         </div>
         <div className="flex flex-wrap gap-1.5">
           {disruptions.map((item) => (
             <button
               key={item.type}
-              className="rounded border border-line bg-ink-900/70 px-2 py-1 text-[10px] text-fog transition hover:border-amber/40 hover:text-amber disabled:opacity-40"
+              className="rounded border border-line bg-surface/70 px-2 py-1 text-[10px] text-ink-500 transition hover:border-ochre/40 hover:text-ochre disabled:opacity-40"
               onClick={() => onDisrupt(item.type)}
               disabled={busy || disabled || finished || !running}
             >
@@ -170,7 +170,7 @@ export function RunControls({
           ))}
         </div>
         {!running && !finished ? (
-          <div className="mt-1 text-[9px] text-slate-600">Start the run to inject live events.</div>
+          <div className="mt-1 text-[9px] text-ink-400">Start the run to inject live events.</div>
         ) : null}
       </div>
     </div>
@@ -191,15 +191,15 @@ function Stat({
   tone?: "default" | "mint" | "amber" | "coral";
 }) {
   const color =
-    tone === "mint" ? "text-mint" : tone === "amber" ? "text-amber" : tone === "coral" ? "text-coral" : "text-white";
+    tone === "mint" ? "text-pine" : tone === "amber" ? "text-ochre" : tone === "coral" ? "text-brick" : "text-ink-900";
   return (
-    <div className="rounded-md border border-line/60 bg-ink-900/50 px-2.5 py-2">
-      <div className="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.12em] text-slate-500">
+    <div className="rounded-md border border-line/60 bg-surface/50 px-2.5 py-2">
+      <div className="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.12em] text-ink-500">
         {icon}
         {label}
       </div>
       <div className={`mt-0.5 font-mono text-base font-semibold tabular-nums ${color}`}>{value}</div>
-      {hint ? <div className="text-[9px] text-slate-600">{hint}</div> : null}
+      {hint ? <div className="text-[9px] text-ink-400">{hint}</div> : null}
     </div>
   );
 }
@@ -223,10 +223,10 @@ export function MetricsPanel({
       <div className="flex items-center gap-3">
         <ScoreRing score={evaluation.score} size={compact ? 92 : 108} />
         <div className="min-w-0 flex-1 space-y-1.5">
-          <div className={`text-[10px] font-semibold uppercase tracking-[0.14em] ${tone === "mint" ? "text-mint" : tone === "amber" ? "text-amber" : tone === "coral" ? "text-coral" : "text-fog"}`}>
+          <div className={`text-[10px] font-semibold uppercase tracking-[0.14em] ${tone === "mint" ? "text-pine" : tone === "amber" ? "text-ochre" : tone === "coral" ? "text-brick" : "text-ink-500"}`}>
             {lateness(evaluation.score)}
           </div>
-          <div className="text-[10px] leading-relaxed text-fog">
+          <div className="text-[10px] leading-relaxed text-ink-500">
             {!final && state.status === "running"
               ? "Live score from recorded transitions so far."
               : "Final score from the recorded run."}
@@ -280,8 +280,8 @@ export function MetricsPanel({
       {evaluation.failures?.length ? (
         <div className="space-y-1">
           {evaluation.failures.slice(0, 4).map((failure) => (
-            <div key={failure} className="flex items-start gap-1.5 rounded border border-line/60 bg-ink-900/50 px-2 py-1.5 text-[10px] leading-relaxed text-fog">
-              <AlertTriangle className="mt-0.5 h-3 w-3 shrink-0 text-amber" />
+            <div key={failure} className="flex items-start gap-1.5 rounded border border-line/60 bg-surface/50 px-2 py-1.5 text-[10px] leading-relaxed text-ink-500">
+              <AlertTriangle className="mt-0.5 h-3 w-3 shrink-0 text-ochre" />
               {failure}
             </div>
           ))}
@@ -303,7 +303,7 @@ export function EventFeed({ events, limit = 40 }: { events: SimEvent[]; limit?: 
   const ordered = [...events].reverse().slice(0, limit);
   if (!ordered.length) {
     return (
-      <div className="flex h-full min-h-[120px] items-center justify-center px-4 text-center text-[11px] text-slate-600">
+      <div className="flex h-full min-h-[120px] items-center justify-center px-4 text-center text-[11px] text-ink-400">
         No events yet. Scheduled disruptions and agent failures appear here.
       </div>
     );
@@ -314,19 +314,19 @@ export function EventFeed({ events, limit = 40 }: { events: SimEvent[]; limit?: 
         const critical = event.severity === "critical";
         const warning = event.severity === "warning";
         const Icon = critical ? Siren : warning ? TriangleAlert : Satellite;
-        const color = critical ? "text-coral" : warning ? "text-amber" : "text-sky";
+        const color = critical ? "text-brick" : warning ? "text-ochre" : "text-steel";
         return (
-          <div key={`${event.seq}-${event.step}`} className="flex items-start gap-2 rounded border border-line/40 bg-ink-900/40 px-2 py-1.5 animate-fade-up">
+          <div key={`${event.seq}-${event.step}`} className="flex items-start gap-2 rounded border border-line/40 bg-surface/40 px-2 py-1.5 animate-fade-up">
             <Icon className={`mt-0.5 h-3 w-3 shrink-0 ${color}`} />
             <div className="min-w-0 flex-1">
-              <div className="text-[10px] leading-relaxed text-slate-300">{event.message || event.type}</div>
-              <div className="flex items-center gap-1.5 font-mono text-[9px] text-slate-600">
+              <div className="text-[10px] leading-relaxed text-ink-700">{event.message || event.type}</div>
+              <div className="flex items-center gap-1.5 font-mono text-[9px] text-ink-400">
                 <span>t{event.step}</span>
                 <span>·</span>
                 <span>{clock(event.time_min)}</span>
                 <span>·</span>
                 <span className="uppercase">{event.type.replace(/_/g, " ")}</span>
-                {event.source === "live" ? <span className="text-amber">live</span> : null}
+                {event.source === "live" ? <span className="text-ochre">live</span> : null}
               </div>
             </div>
           </div>
@@ -348,25 +348,25 @@ export function PackageList({ packages }: { packages: SimPackage[] }) {
         const overdue = !delivered && pkg.deadline_min < 0;
         const tone = delivered ? (pkg.late ? "coral" : "mint") : pkg.status === "in_transit" ? "sky" : "amber";
         return (
-          <div key={pkg.id} className="flex items-center gap-2 rounded border border-line/40 bg-ink-900/40 px-2 py-1.5">
+          <div key={pkg.id} className="flex items-center gap-2 rounded border border-line/40 bg-surface/40 px-2 py-1.5">
             <span
               className={`h-1.5 w-1.5 shrink-0 rounded-full ${
-                tone === "mint" ? "bg-mint" : tone === "coral" ? "bg-coral" : tone === "sky" ? "bg-sky" : "bg-amber"
+                tone === "mint" ? "bg-pine" : tone === "coral" ? "bg-brick" : tone === "sky" ? "bg-steel" : "bg-ochre"
               }`}
             />
             <div className="min-w-0 flex-1">
               <div className="flex items-baseline gap-1.5">
-                <span className="font-mono text-[10px] text-slate-300">{pkg.id}</span>
-                <span className="truncate text-[9px] text-slate-600">{pkg.dest_label}</span>
+                <span className="font-mono text-[10px] text-ink-700">{pkg.id}</span>
+                <span className="truncate text-[9px] text-ink-400">{pkg.dest_label}</span>
               </div>
-              <div className="text-[9px] text-slate-600">
+              <div className="text-[9px] text-ink-400">
                 {delivered
                   ? `delivered t+${pkg.delivered_at_min}${pkg.late ? " · late" : ""}`
                   : `due ${pkg.deadline_min} min · ${pkg.dest}`}
               </div>
             </div>
-            {overdue ? <span className="text-[9px] text-coral">overdue</span> : null}
-            <span className={`text-[9px] font-medium ${tone === "mint" ? "text-mint" : tone === "coral" ? "text-coral" : tone === "sky" ? "text-sky" : "text-amber"}`}>
+            {overdue ? <span className="text-[9px] text-brick">overdue</span> : null}
+            <span className={`text-[9px] font-medium ${tone === "mint" ? "text-pine" : tone === "coral" ? "text-brick" : tone === "sky" ? "text-steel" : "text-ochre"}`}>
               {pkg.status === "in_transit" ? "loaded" : pkg.status === "at_depot" ? "queued" : pkg.late ? "late" : "done"}
             </span>
           </div>

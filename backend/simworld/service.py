@@ -19,7 +19,7 @@ from typing import Any
 from .agents.base import AgentContext, AgentError, Decision
 from .agents.builtins import AGENT_METADATA, default_builtin_for, make_builtin
 from .agents.factory import agent_descriptor, build_agent
-from .agents.llm import llm_config_from_env, probe_model
+from .agents.llm import probe_model
 from .config import Settings
 from .engine.actions import Action, ActionFormatError
 from .engine.city import CityWorld
@@ -86,8 +86,17 @@ class RunService:
     def metric_definitions(self) -> list[dict[str, Any]]:
         return metric_definitions()
 
+    def _llm_config(self) -> dict[str, Any]:
+        return {
+            "base_url": self.settings.llm_base_url,
+            "model": self.settings.llm_model,
+            "api_key": self.settings.llm_api_key,
+            "provider": self.settings.llm_provider,
+            "timeout_s": self.settings.llm_timeout_s,
+        }
+
     def agent_catalogue(self) -> dict[str, Any]:
-        llm = llm_config_from_env()
+        llm = self._llm_config()
         probe = probe_model(
             llm["base_url"], llm["model"], llm["api_key"], timeout_s=3.0
         )
@@ -113,7 +122,7 @@ class RunService:
         }
 
     def llm_status(self) -> dict[str, Any]:
-        config = llm_config_from_env()
+        config = self._llm_config()
         result = probe_model(
             config["base_url"], config["model"], config["api_key"], timeout_s=4.0
         )
@@ -850,7 +859,18 @@ class RunService:
         if scenario is None:
             raise ValueError(f"Unknown scenario '{scenario_id}'.")
         spec = payload.get("agent") or {}
-        agent = build_agent(spec, scenario["kind"], self.settings)
+        try:
+            agent = build_agent(spec, scenario["kind"], self.settings)
+        except AgentError as exc:
+            if exc.code in {"endpoint_blocked", "dns_failure"}:
+                return {
+                    "ok": False,
+                    "code": exc.code,
+                    "error": exc.message,
+                    "latency_ms": 0.0,
+                    "protocol": "simworld.agent.v1",
+                }
+            raise
         world = build_world(scenario_id, 7, None)
         observation = world.observation()
         legal = observation["legal_actions"]

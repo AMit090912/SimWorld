@@ -49,20 +49,20 @@ function BuiltinCard({ agent }: { agent: import("../lib/types").BuiltinAgent }) 
     <div className="panel-flat p-3">
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-md border border-mint/20 bg-mint/[0.07]">
-            <Cpu className="h-3.5 w-3.5 text-mint" />
+          <div className="flex h-7 w-7 items-center justify-center rounded-md border border-pine/20 bg-pine/[0.07]">
+            <Cpu className="h-3.5 w-3.5 text-pine" />
           </div>
           <div>
-            <div className="text-xs font-semibold text-slate-200">{agent.label}</div>
-            <div className="font-mono text-[9px] text-slate-600">{agent.id}</div>
+            <div className="text-xs font-semibold text-ink-800">{agent.label}</div>
+            <div className="font-mono text-[9px] text-ink-400">{agent.id}</div>
           </div>
         </div>
         <span className="chip !text-[9px]">{agent.environments.includes("city_logistics") ? "city" : "traffic"}</span>
       </div>
-      <p className="mt-2 text-[10px] leading-relaxed text-fog">{agent.description}</p>
+      <p className="mt-2 text-[10px] leading-relaxed text-ink-500">{agent.description}</p>
       <div className="mt-2 flex flex-wrap gap-1">
         {agent.traits.map((trait) => (
-          <span key={trait} className="rounded border border-line/70 bg-ink-950/50 px-1.5 py-0.5 text-[9px] text-slate-500">
+          <span key={trait} className="rounded border border-line/70 bg-paper/50 px-1.5 py-0.5 text-[9px] text-ink-500">
             {trait}
           </span>
         ))}
@@ -74,25 +74,25 @@ function BuiltinCard({ agent }: { agent: import("../lib/types").BuiltinAgent }) 
 function ResultView({ result }: { result: AgentTestResult }) {
   if (!result.ok) {
     return (
-      <div className="space-y-2 rounded-md border border-coral/30 bg-coral/[0.05] p-2.5">
-        <div className="flex items-center gap-1.5 text-[11px] font-semibold text-coral">
+      <div className="space-y-2 rounded-md border border-brick/30 bg-brick/[0.05] p-2.5">
+        <div className="flex items-center gap-1.5 text-[11px] font-semibold text-brick">
           <XCircle className="h-3.5 w-3.5" /> Connection test failed
         </div>
-        <div className="font-mono text-[9px] text-coral/80">{result.code}</div>
-        <p className="text-[10px] leading-relaxed text-slate-400">{result.error}</p>
-        <div className="font-mono text-[9px] text-slate-600">{result.latency_ms.toFixed(0)} ms</div>
+        <div className="font-mono text-[9px] text-brick/80">{result.code}</div>
+        <p className="text-[10px] leading-relaxed text-ink-600">{result.error}</p>
+        <div className="font-mono text-[9px] text-ink-400">{result.latency_ms.toFixed(0)} ms</div>
       </div>
     );
   }
   return (
-    <div className="space-y-2 rounded-md border border-mint/25 bg-mint/[0.04] p-2.5">
+    <div className="space-y-2 rounded-md border border-pine/25 bg-pine/[0.04] p-2.5">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1.5 text-[11px] font-semibold text-mint">
+        <div className="flex items-center gap-1.5 text-[11px] font-semibold text-pine">
           <CheckCircle2 className="h-3.5 w-3.5" /> Endpoint responded with a valid action
         </div>
-        <span className="font-mono text-[9px] text-slate-500">{result.latency_ms.toFixed(0)} ms</span>
+        <span className="font-mono text-[9px] text-ink-500">{result.latency_ms.toFixed(0)} ms</span>
       </div>
-      <div className="rounded border border-line/60 bg-ink-950/70 px-2 py-1.5 font-mono text-[10px] text-slate-300">
+      <div className="rounded border border-line/60 bg-paper/70 px-2 py-1.5 font-mono text-[10px] text-ink-700">
         {JSON.stringify(result.action)}
       </div>
       <div className="flex flex-wrap gap-1">
@@ -104,10 +104,10 @@ function ResultView({ result }: { result: AgentTestResult }) {
         </span>
         {result.fallback_used ? <span className="chip-amber">fallback used</span> : null}
       </div>
-      {result.reasoning ? <p className="text-[10px] leading-relaxed text-fog">{result.reasoning}</p> : null}
-      {result.engine_result ? <p className="text-[9px] text-slate-500">{result.engine_result}</p> : null}
+      {result.reasoning ? <p className="text-[10px] leading-relaxed text-ink-500">{result.reasoning}</p> : null}
+      {result.engine_result ? <p className="text-[9px] text-ink-500">{result.engine_result}</p> : null}
       {result.error ? (
-        <div className="flex items-start gap-1.5 text-[9px] text-amber">
+        <div className="flex items-start gap-1.5 text-[9px] text-ochre">
           <AlertTriangle className="mt-0.5 h-3 w-3 shrink-0" /> {result.error}
         </div>
       ) : null}
@@ -163,12 +163,12 @@ export default function Agents() {
 
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_390px]">
         <div className="space-y-4">
-          <Panel title="Built-in strategies" action={<span className="text-[9px] text-slate-600">deterministic · no credentials</span>}>
+          <Panel title="Built-in strategies" action={<span className="text-[9px] text-ink-400">deterministic · no credentials</span>}>
             {loading ? <Spinner label="Loading agents" /> : null}
             <div className="grid gap-2 sm:grid-cols-2">
               {catalogue?.builtin.map((agent) => <BuiltinCard key={agent.id} agent={agent} />)}
             </div>
-            <p className="mt-3 text-[10px] leading-relaxed text-slate-500">
+            <p className="mt-3 text-[10px] leading-relaxed text-ink-500">
               Built-ins can complete their environments without a model. They are useful baselines and fallbacks,
               not proof that an external agent will behave the same way.
             </p>
@@ -177,7 +177,7 @@ export default function Agents() {
           <Panel
             title={
               <span className="flex items-center gap-1.5">
-                <Globe className="h-3 w-3 text-mint" /> External HTTP agent
+                <Globe className="h-3 w-3 text-pine" /> External HTTP agent
               </span>
             }
             action={<span className="chip !text-[9px]">simworld.agent.v1</span>}
@@ -207,16 +207,16 @@ export default function Agents() {
                 {busy === "external" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <PlayCircle className="h-3.5 w-3.5" />}
                 Test connection
               </button>
-              <span className="text-[9px] text-slate-600">sends one real observation from seed 7</span>
+              <span className="text-[9px] text-ink-400">sends one real observation from seed 7</span>
             </div>
             {externalResult ? (
               <div className="mt-3">
                 <ResultView result={externalResult} />
               </div>
             ) : null}
-            <div className="mt-3 rounded border border-line/60 bg-ink-950/50 p-2.5 text-[10px] leading-relaxed text-fog">
+            <div className="mt-3 rounded border border-line/60 bg-paper/50 p-2.5 text-[10px] leading-relaxed text-ink-500">
               Start the sample agent locally:
-              <code className="mt-1 block font-mono text-[10px] text-mint">python examples/external_agent.py --port 9100</code>
+              <code className="mt-1 block font-mono text-[10px] text-pine">python examples/external_agent.py --port 9100</code>
               It uses the same observation/action schema as the panel on the right.
             </div>
           </Panel>
@@ -224,7 +224,7 @@ export default function Agents() {
           <Panel
             title={
               <span className="flex items-center gap-1.5">
-                <Sparkles className="h-3 w-3 text-amber" /> Model agent
+                <Sparkles className="h-3 w-3 text-ochre" /> Model agent
               </span>
             }
             action={
@@ -236,30 +236,30 @@ export default function Agents() {
             ) : (
               <div className="space-y-3">
                 <div className="grid gap-2 sm:grid-cols-2">
-                  <div className="rounded border border-line/60 bg-ink-950/50 p-2">
+                  <div className="rounded border border-line/60 bg-paper/50 p-2">
                     <div className="label mb-1">Model</div>
-                    <div className="font-mono text-[11px] text-slate-300">{llm?.model}</div>
+                    <div className="font-mono text-[11px] text-ink-700">{llm?.model}</div>
                   </div>
-                  <div className="rounded border border-line/60 bg-ink-950/50 p-2">
+                  <div className="rounded border border-line/60 bg-paper/50 p-2">
                     <div className="label mb-1">Base URL</div>
-                    <div className="truncate font-mono text-[10px] text-slate-400">{llm?.base_url}</div>
+                    <div className="truncate font-mono text-[10px] text-ink-600">{llm?.base_url}</div>
                   </div>
                 </div>
-                <div className="space-y-1 text-[10px] text-fog">
+                <div className="space-y-1 text-[10px] text-ink-500">
                   <div className="flex items-center gap-1.5">
-                    <ShieldCheck className="h-3 w-3 text-slate-500" />
-                    API key configured: <span className={llm?.api_key_configured ? "text-mint" : "text-amber"}>{llm?.api_key_configured ? "yes" : "no"}</span>
+                    <ShieldCheck className="h-3 w-3 text-ink-500" />
+                    API key configured: <span className={llm?.api_key_configured ? "text-pine" : "text-ochre"}>{llm?.api_key_configured ? "yes" : "no"}</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <ServerCog className="h-3 w-3 text-slate-500" />
-                    Probe: <span className={llm?.probe.available ? "text-mint" : "text-amber"}>{llm?.probe.available ? "available" : llm?.probe.error}</span>
+                    <ServerCog className="h-3 w-3 text-ink-500" />
+                    Probe: <span className={llm?.probe.available ? "text-pine" : "text-ochre"}>{llm?.probe.available ? "available" : llm?.probe.error}</span>
                   </div>
                   {llm?.probe.model_listed === false ? (
-                    <div className="text-amber">The model name is not in the endpoint's /models list.</div>
+                    <div className="text-ochre">The model name is not in the endpoint's /models list.</div>
                   ) : null}
                 </div>
                 {!llm?.probe.available ? (
-                  <div className="flex items-start gap-2 rounded border border-amber/25 bg-amber/[0.05] p-2 text-[10px] leading-relaxed text-amber/90">
+                  <div className="flex items-start gap-2 rounded border border-ochre/25 bg-ochre/[0.05] p-2 text-[10px] leading-relaxed text-ochre/90">
                     <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
                     No model is answering. Runs configured with a model will record a fallback and mark it in the metrics —
                     they will not pretend the model decided.
@@ -270,12 +270,12 @@ export default function Agents() {
                     {busy === "llm" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Bot className="h-3.5 w-3.5" />}
                     Test model decision
                   </button>
-                  <span className="text-[9px] text-slate-600">OpenAI-compatible · config via env</span>
+                  <span className="text-[9px] text-ink-400">OpenAI-compatible · config via env</span>
                 </div>
                 {llmResult ? <ResultView result={llmResult} /> : null}
-                <div className="rounded border border-line/60 bg-ink-950/50 p-2.5">
+                <div className="rounded border border-line/60 bg-paper/50 p-2.5">
                   <div className="label mb-1.5">Server environment</div>
-                  <div className="space-y-1 font-mono text-[9px] text-slate-500">
+                  <div className="space-y-1 font-mono text-[9px] text-ink-500">
                     <div>SIMWORLD_LLM_BASE_URL</div>
                     <div>SIMWORLD_LLM_MODEL</div>
                     <div>SIMWORLD_LLM_API_KEY_ENV</div>
@@ -292,23 +292,23 @@ export default function Agents() {
             action={<CopyButton text={REQUEST_SAMPLE} />}
             bodyClassName="p-0"
           >
-            <pre className="max-h-[360px] overflow-auto p-3 font-mono text-[9px] leading-relaxed text-slate-400">{REQUEST_SAMPLE}</pre>
+            <pre className="max-h-[360px] overflow-auto p-3 font-mono text-[9px] leading-relaxed text-ink-600">{REQUEST_SAMPLE}</pre>
           </Panel>
           <Panel title="Expected response" action={<CopyButton text={RESPONSE_SAMPLE} />} bodyClassName="p-0">
-            <pre className="overflow-auto p-3 font-mono text-[9px] leading-relaxed text-slate-400">{RESPONSE_SAMPLE}</pre>
+            <pre className="overflow-auto p-3 font-mono text-[9px] leading-relaxed text-ink-600">{RESPONSE_SAMPLE}</pre>
           </Panel>
           <Panel title="Failure policy">
-            <div className="space-y-2 text-[10px] leading-relaxed text-fog">
+            <div className="space-y-2 text-[10px] leading-relaxed text-ink-500">
               <div className="flex items-start gap-1.5">
-                <Cloud className="mt-0.5 h-3.5 w-3.5 shrink-0 text-sky" />
+                <Cloud className="mt-0.5 h-3.5 w-3.5 shrink-0 text-steel" />
                 Timeout, crash, or malformed output → one safe deterministic fallback action is applied and the error is recorded.
               </div>
               <div className="flex items-start gap-1.5">
-                <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber" />
-                Three consecutive agent failures terminate the run as <span className="font-mono text-amber">agent_unavailable</span>.
+                <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-ochre" />
+                Three consecutive agent failures terminate the run as <span className="font-mono text-ochre">agent_unavailable</span>.
               </div>
               <div className="flex items-start gap-1.5">
-                <Bot className="mt-0.5 h-3.5 w-3.5 shrink-0 text-mint" />
+                <Bot className="mt-0.5 h-3.5 w-3.5 shrink-0 text-pine" />
                 Structurally valid but illegal actions reach the engine, are rejected, and count against the agent.
               </div>
             </div>

@@ -42,7 +42,7 @@ function actionLabel(action: Record<string, unknown> | null): string {
 
 function Sparkline({
   values,
-  color = "#38e3ab",
+  color = "#1F5A4A",
   label,
   unit,
 }: {
@@ -65,10 +65,10 @@ function Sparkline({
     })
     .join(" ");
   return (
-    <div className="rounded border border-line/50 bg-ink-900/40 p-2">
+    <div className="rounded border border-line/50 bg-surface/40 p-2">
       <div className="mb-1 flex items-baseline justify-between">
-        <span className="text-[9px] uppercase tracking-[0.12em] text-slate-500">{label}</span>
-        <span className="font-mono text-[10px] text-slate-300">
+        <span className="text-[9px] uppercase tracking-[0.12em] text-ink-500">{label}</span>
+        <span className="font-mono text-[10px] text-ink-700">
           {unit === "%" ? pct(values[values.length - 1], 0) : num(values[values.length - 1], 1)}
           {unit && unit !== "%" ? ` ${unit}` : ""}
         </span>
@@ -137,7 +137,7 @@ export default function RunDetail() {
   if (error) {
     return (
       <div className="space-y-3">
-        <Link to="/runs" className="inline-flex items-center gap-1 text-[11px] text-fog hover:text-white">
+        <Link to="/runs" className="inline-flex items-center gap-1 text-[11px] text-ink-500 hover:text-ink-900">
           <ArrowLeft className="h-3.5 w-3.5" /> Back to runs
         </Link>
         <ErrorBanner message={error} onRetry={reload} />
@@ -168,17 +168,17 @@ export default function RunDetail() {
           </Link>
           <div>
             <div className="flex flex-wrap items-center gap-2">
-              <span className="font-mono text-sm text-white">{replay.run.id}</span>
+              <span className="font-mono text-sm text-ink-900">{replay.run.id}</span>
               <StatusPill status={replay.run.status} />
               <span className="chip">{scenario?.name || replay.run.scenario_id}</span>
             </div>
-            <div className="mt-1 flex flex-wrap items-center gap-2 text-[10px] text-fog">
+            <div className="mt-1 flex flex-wrap items-center gap-2 text-[10px] text-ink-500">
               <span>seed {replay.run.seed}</span>
-              <span className="text-slate-600">·</span>
+              <span className="text-ink-400">·</span>
               <span>{replay.agent.label}</span>
-              <span className="text-slate-600">·</span>
+              <span className="text-ink-400">·</span>
               <span>{relativeTime(replay.run.created_at)}</span>
-              <span className="text-slate-600">·</span>
+              <span className="text-ink-400">·</span>
               <span>{duration(replay.run.duration_ms)}</span>
             </div>
           </div>
@@ -226,6 +226,7 @@ export default function RunDetail() {
           <div className="mx-2 flex min-w-[160px] flex-1 items-center gap-2">
             <input
               type="range"
+              className="range flex-1"
               min={0}
               max={Math.max(1, total)}
               value={index}
@@ -233,11 +234,10 @@ export default function RunDetail() {
                 setPlaying(false);
                 setIndex(Number(event.target.value));
               }}
-              className="h-1 flex-1 accent-mint"
               aria-label="Replay position"
             />
           </div>
-          <span className="font-mono text-[10px] text-slate-400">
+          <span className="font-mono text-[10px] text-ink-600">
             t{state.step} / {total}
           </span>
           <select className="select !w-auto !py-1 !text-[10px]" value={speed} onChange={(event) => setSpeed(Number(event.target.value))}>
@@ -247,23 +247,23 @@ export default function RunDetail() {
             <option value={1600}>1.6s</option>
           </select>
         </div>
-        <div className="mt-2 flex flex-wrap items-center gap-2 border-t border-line/50 pt-2 text-[10px] text-fog">
-          <Clock3 className="h-3 w-3 text-slate-500" />
+        <div className="mt-2 flex flex-wrap items-center gap-2 border-t border-line/50 pt-2 text-[10px] text-ink-500">
+          <Clock3 className="h-3 w-3 text-ink-500" />
           <span className="font-mono">{clock(state.time_min)}</span>
-          <span className="text-slate-600">·</span>
+          <span className="text-ink-400">·</span>
           <span>state hash</span>
-          <span className="font-mono text-slate-400">{state.state_hash}</span>
+          <span className="font-mono text-ink-600">{state.state_hash}</span>
           {currentStep ? (
             <>
-              <span className="text-slate-600">·</span>
-              <span className={currentStep.valid ? "text-mint" : "text-coral"}>
+              <span className="text-ink-400">·</span>
+              <span className={currentStep.valid ? "text-pine" : "text-brick"}>
                 {currentStep.valid ? "action accepted" : `rejected: ${currentStep.decision?.code}`}
               </span>
-              <span className="text-slate-600">·</span>
+              <span className="text-ink-400">·</span>
               <span className="font-mono">{num(currentStep.latency_ms, 0)} ms</span>
             </>
           ) : (
-            <span className="text-slate-600">· initial state (step 0)</span>
+            <span className="text-ink-400">· initial state (step 0)</span>
           )}
           {replay.run.status === "running" ? <span className="chip-amber">live run — more steps may appear</span> : null}
         </div>
@@ -272,7 +272,7 @@ export default function RunDetail() {
       <div className="grid gap-3 xl:grid-cols-[minmax(0,1fr)_360px]">
         <div className="space-y-3">
           <Panel bodyClassName="p-2" title={`${state.kind === "city_logistics" ? "City state" : "Signal state"} · step ${state.step}`}>
-            <div className="h-[clamp(340px,48vh,560px)] overflow-hidden rounded-lg border border-line/60">
+            <div className="h-[clamp(460px,68vh,760px)] overflow-hidden rounded-lg border border-line/60">
               {state.kind === "city_logistics" ? (
                 <CityMap state={state as CityState} trail={(state as CityState).trail ?? trail} />
               ) : (
@@ -282,36 +282,36 @@ export default function RunDetail() {
           </Panel>
 
           <div className="grid gap-3 md:grid-cols-2">
-            <Panel title="Decision at this step" action={currentStep ? <span className="font-mono text-[9px] text-slate-600">t{currentStep.step}</span> : null}>
+            <Panel title="Decision at this step" action={currentStep ? <span className="font-mono text-[9px] text-ink-400">t{currentStep.step}</span> : null}>
               {currentStep ? (
                 <div className="space-y-2">
                   <div className="flex items-center gap-1.5">
                     <span className={`chip ${currentStep.valid ? "chip-mint" : "chip-coral"} !text-[9px]`}>
                       {currentStep.valid ? "accepted" : currentStep.decision?.code}
                     </span>
-                    <span className="font-mono text-[9px] text-slate-600">{num(currentStep.latency_ms, 0)} ms</span>
+                    <span className="font-mono text-[9px] text-ink-400">{num(currentStep.latency_ms, 0)} ms</span>
                     {currentStep.decision?.fallback_used ? <span className="chip-amber !text-[9px]">fallback</span> : null}
                   </div>
-                  <div className="rounded border border-line/60 bg-ink-950/60 px-2 py-1.5 font-mono text-[10px] text-mint">
+                  <div className="rounded border border-line/60 bg-paper/60 px-2 py-1.5 font-mono text-[10px] text-pine">
                     {actionLabel(currentStep.action)}
                   </div>
-                  <p className="text-[10px] leading-relaxed text-fog">
+                  <p className="text-[10px] leading-relaxed text-ink-500">
                     {currentStep.decision?.reasoning || currentStep.reason || "No reasoning recorded."}
                   </p>
                   {currentStep.decision?.error ? (
-                    <div className="flex items-start gap-1.5 rounded border border-coral/25 bg-coral/[0.05] px-2 py-1 text-[9px] leading-relaxed text-coral">
+                    <div className="flex items-start gap-1.5 rounded border border-brick/25 bg-brick/[0.05] px-2 py-1 text-[9px] leading-relaxed text-brick">
                       <AlertTriangle className="mt-0.5 h-3 w-3 shrink-0" />
                       {currentStep.decision.error}
                     </div>
                   ) : null}
                   {!currentStep.valid ? (
-                    <div className="rounded border border-amber/25 bg-amber/[0.05] px-2 py-1 text-[9px] leading-relaxed text-amber">
+                    <div className="rounded border border-ochre/25 bg-ochre/[0.05] px-2 py-1 text-[9px] leading-relaxed text-ochre">
                       {currentStep.reason}
                     </div>
                   ) : null}
                 </div>
               ) : (
-                <p className="text-[10px] leading-relaxed text-fog">
+                <p className="text-[10px] leading-relaxed text-ink-500">
                   This is the stored initial state. Move the replay forward to inspect the first action.
                 </p>
               )}
@@ -322,7 +322,7 @@ export default function RunDetail() {
                 {city ? (
                   <>
                     <Sparkline values={deliveredSeries} label="Delivered" />
-                    <Sparkline values={fuelSeries} color="#72a9ff" label="Fuel remaining" unit="L" />
+                    <Sparkline values={fuelSeries} color="#2E5A74" label="Fuel remaining" unit="L" />
                     <div className="grid grid-cols-3 gap-1.5 pt-1">
                       <MetricChip label="Delivered" value={`${metricsAtStep.packages_delivered ?? 0}/${metricsAtStep.packages_total ?? 0}`} />
                       <MetricChip label="Fuel" value={`${num(Number(metricsAtStep.fuel_remaining_l), 1)} L`} />
@@ -332,7 +332,7 @@ export default function RunDetail() {
                 ) : (
                   <>
                     <Sparkline values={throughputSeries} label="Vehicles cleared" />
-                    <Sparkline values={waitSeries} color="#f5b84c" label="Average wait" unit="ticks" />
+                    <Sparkline values={waitSeries} color="#A9771F" label="Average wait" unit="ticks" />
                     <div className="grid grid-cols-3 gap-1.5 pt-1">
                       <MetricChip label="Cleared" value={num(Number(metricsAtStep.vehicles_discharged), 0)} />
                       <MetricChip label="Wait" value={num(Number(metricsAtStep.avg_wait_ticks), 1)} />
@@ -350,7 +350,7 @@ export default function RunDetail() {
                 <ListVideo className="h-3 w-3" /> Action timeline
               </span>
             }
-            action={<span className="text-[9px] text-slate-600">{total} recorded steps</span>}
+            action={<span className="text-[9px] text-ink-400">{total} recorded steps</span>}
             bodyClassName="p-2"
           >
             {total === 0 ? (
@@ -360,7 +360,7 @@ export default function RunDetail() {
             ) : (
               <div className="max-h-[300px] overflow-y-auto">
                 <table className="w-full border-collapse">
-                  <thead className="sticky top-0 bg-ink-850">
+                  <thead className="sticky top-0 bg-surface">
                     <tr>
                       <th className="table-head !py-1.5">#</th>
                       <th className="table-head !py-1.5">Action</th>
@@ -379,17 +379,17 @@ export default function RunDetail() {
                             setPlaying(false);
                             setIndex(step.step);
                           }}
-                          className={`cursor-pointer transition ${active ? "bg-mint/[0.06]" : "hover:bg-white/[0.025]"}`}
+                          className={`cursor-pointer transition ${active ? "bg-pine/[0.06]" : "hover:bg-ink-900/[0.035]"}`}
                         >
-                          <td className={`table-cell font-mono ${active ? "text-mint" : "text-slate-500"}`}>{step.step}</td>
-                          <td className="table-cell font-mono text-[10px] text-slate-300">{actionLabel(step.action)}</td>
+                          <td className={`table-cell font-mono ${active ? "text-pine" : "text-ink-500"}`}>{step.step}</td>
+                          <td className="table-cell font-mono text-[10px] text-ink-700">{actionLabel(step.action)}</td>
                           <td className="table-cell">
-                            <span className={`text-[9px] font-medium ${step.valid ? "text-mint" : "text-coral"}`}>
+                            <span className={`text-[9px] font-medium ${step.valid ? "text-pine" : "text-brick"}`}>
                               {step.valid ? "ok" : step.decision?.code || "rejected"}
                             </span>
                           </td>
                           <td className="table-cell font-mono text-[9px]">{num(step.latency_ms, 0)} ms</td>
-                          <td className="table-cell max-w-[280px] truncate text-[9px] text-fog">{step.decision?.reasoning || "—"}</td>
+                          <td className="table-cell max-w-[280px] truncate text-[9px] text-ink-500">{step.decision?.reasoning || "—"}</td>
                         </tr>
                       );
                     })}
@@ -401,20 +401,20 @@ export default function RunDetail() {
         </div>
 
         <div className="space-y-3">
-          <Panel title="Final evaluation" action={<span className="text-[9px] text-slate-600">recorded</span>}>
+          <Panel title="Final evaluation" action={<span className="text-[9px] text-ink-400">recorded</span>}>
             <MetricsPanel state={state} evaluation={evaluation} compact final />
           </Panel>
 
           <Panel title="Failure analysis">
             <div className="space-y-1.5">
               {(evaluation.failures || []).map((failure) => (
-                <div key={failure} className="flex items-start gap-1.5 rounded border border-line/60 bg-ink-900/40 px-2 py-1.5 text-[10px] leading-relaxed text-fog">
-                  <AlertTriangle className="mt-0.5 h-3 w-3 shrink-0 text-amber" />
+                <div key={failure} className="flex items-start gap-1.5 rounded border border-line/60 bg-surface/40 px-2 py-1.5 text-[10px] leading-relaxed text-ink-500">
+                  <AlertTriangle className="mt-0.5 h-3 w-3 shrink-0 text-ochre" />
                   {failure}
                 </div>
               ))}
               {evaluation.failures?.length === 0 ? (
-                <div className="flex items-center gap-1.5 text-[10px] text-mint">
+                <div className="flex items-center gap-1.5 text-[10px] text-pine">
                   <ShieldCheck className="h-3.5 w-3.5" /> No objective failures recorded.
                 </div>
               ) : null}
@@ -456,11 +456,11 @@ export default function RunDetail() {
             <Panel title="Signals at this step">
               <div className="space-y-1">
                 {traffic.intersections.map((intersection) => (
-                  <div key={intersection.id} className="flex items-center gap-2 rounded border border-line/40 bg-ink-900/40 px-2 py-1.5 text-[10px]">
-                    <span className={`h-1.5 w-1.5 rounded-full ${intersection.phase === "NS" ? "bg-mint" : "bg-sky"}`} />
-                    <span className="w-9 font-mono text-slate-300">{intersection.id}</span>
-                    <span className={intersection.phase === "NS" ? "text-mint" : "text-sky"}>{intersection.phase}</span>
-                    <span className="ml-auto font-mono text-[9px] text-slate-500">
+                  <div key={intersection.id} className="flex items-center gap-2 rounded border border-line/40 bg-surface/40 px-2 py-1.5 text-[10px]">
+                    <span className={`h-1.5 w-1.5 rounded-full ${intersection.phase === "NS" ? "bg-pine" : "bg-steel"}`} />
+                    <span className="w-9 font-mono text-ink-700">{intersection.id}</span>
+                    <span className={intersection.phase === "NS" ? "text-pine" : "text-steel"}>{intersection.phase}</span>
+                    <span className="ml-auto font-mono text-[9px] text-ink-500">
                       {Object.values(intersection.queues).reduce((sum, value) => sum + value, 0)} queued
                     </span>
                   </div>
@@ -499,9 +499,9 @@ export default function RunDetail() {
 
 function MetricChip({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded border border-line/50 bg-ink-900/40 px-2 py-1.5">
-      <div className="text-[8px] uppercase tracking-[0.12em] text-slate-600">{label}</div>
-      <div className="font-mono text-[11px] text-slate-300">{value}</div>
+    <div className="rounded border border-line/50 bg-surface/40 px-2 py-1.5">
+      <div className="text-[8px] uppercase tracking-[0.12em] text-ink-400">{label}</div>
+      <div className="font-mono text-[11px] text-ink-700">{value}</div>
     </div>
   );
 }
@@ -509,8 +509,8 @@ function MetricChip({ label, value }: { label: string; value: string }) {
 function ConfigRow({ label, value, mono = false }: { label: string; value: string; mono?: boolean }) {
   return (
     <div className="flex items-start justify-between gap-3">
-      <span className="capitalize text-fog">{label}</span>
-      <span className={`max-w-[190px] break-words text-right text-slate-300 ${mono ? "font-mono text-[9px]" : "font-mono text-[10px]"}`}>
+      <span className="capitalize text-ink-500">{label}</span>
+      <span className={`max-w-[190px] break-words text-right text-ink-700 ${mono ? "font-mono text-[9px]" : "font-mono text-[10px]"}`}>
         {value}
       </span>
     </div>
