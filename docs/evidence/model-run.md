@@ -20,6 +20,8 @@ This is a real run captured from the running application. No values below were t
 
 Raw evidence: `model-run.json` (every step, action, reasoning, latency, validity, failure list).
 
+![Model replay](../screenshots/14-model-replay.png)
+
 ## Why the agent is a supervisor
 
 The first implementation asked the 1.5B model for a raw movement action on every tick. It produced
