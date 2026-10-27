@@ -708,6 +708,7 @@ class RunService:
             "agent": run["agent"],
             "initial_state": run["initial_state"],
             "initial_snapshot": initial_world.snapshot(),
+            "live_events": run["state"].get("live_events", []),
             "steps": steps,
             "evaluation": evaluation,
             "step_count": len(steps),

@@ -247,7 +247,7 @@ cd backend
 python -m pytest -q
 ```
 
-86 tests cover engine rules, fuel, deadlines, closures, scheduled events, terminal states, traffic
+87 tests cover engine rules, fuel, deadlines, closures, scheduled events, terminal states, traffic
 signal rules, determinism, external-agent validation/timeouts/SSRF, LLM fallback and schema
 tolerance, metric math, replay reconstruction, run lifecycle, experiments, the documented example
 agent, the MCP tools, and the HTTP API.

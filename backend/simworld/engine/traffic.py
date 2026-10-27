@@ -271,7 +271,9 @@ class TrafficWorld:
         }
         self.events.append(record)
         if source == "live":
-            self.live_events.append(dict(event))
+            # Live injections happen between ticks. Record the step so replay can
+            # reconstruct them in order with the recorded actions.
+            self.live_events.append({**event, "at_step": self.step})
 
     def inject(self, event: dict[str, Any]) -> dict[str, Any] | None:
         before = len(self.events)

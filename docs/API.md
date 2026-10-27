@@ -97,6 +97,9 @@ effect (for example a closure on an already closed road) returns 400.
   "agent": { "...": "descriptor" },
   "initial_state": { "...": "authoritative to_dict world state" },
   "initial_snapshot": { "...": "display snapshot with metrics" },
+  "live_events": [
+    { "type": "road_closure", "edges": ["1,4|2,4"], "at_step": 5, "message": "..." }
+  ],
   "steps": [
     {
       "step": 1,
@@ -116,7 +119,10 @@ effect (for example a closure on an already closed road) returns 400.
 ```
 
 Replay consumers should treat `steps[].state` as the recorded evidence. `initial_state` exists for
-action-sequence reconstruction and determinism tests.
+action-sequence reconstruction and determinism tests. To reconstruct a run that received live
+disruptions, apply each step's action, compare/record the resulting hash, then apply any
+`live_events` whose `at_step` equals that step. Live events happen between ticks, so the step
+snapshot is stored before the injection.
 
 ## Agents
 

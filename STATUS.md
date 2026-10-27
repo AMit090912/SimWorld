@@ -29,9 +29,9 @@ Updated: 2026-10-26
 
 ## Test status
 
-`python -m pytest backend -q` → **86 passed**.
+`python -m pytest backend -q` → **87 passed**.
 
-Coverage includes engine transitions, fuel, deadlines, closures, scheduled events, fog, determinism,
+Coverage includes engine transitions, live-injection replay reconstruction, fuel, deadlines, closures, scheduled events, fog, determinism,
 traffic minimum green and incidents, external agent validation/timeouts/SSRF/oversized responses, the
 example agent over HTTP, LLM schema tolerance and fallback, metric math, replay reconstruction, run
 lifecycle, experiments, MCP tools, and HTTP API behaviours.

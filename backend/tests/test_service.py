@@ -122,6 +122,40 @@ def test_replay_reconstructs_exact_transitions(service: RunService):
     assert replay["evaluation"]["score"] > 0
 
 
+def test_replay_reconstructs_live_disruptions(service: RunService):
+    created = service.create_run(
+        {
+            "scenario_id": "city-logistics/standard",
+            "seed": 7,
+            "agent": {"type": "builtin", "id": "city-baseline"},
+        }
+    )
+    run_id = created["run"]["id"]
+    for _ in range(5):
+        service.step(run_id)
+    injected = service.inject_disruption(run_id, {"type": "road_closure"})
+    assert injected["injected"]["source"] == "live"
+    for _ in range(8):
+        service.step(run_id)
+
+    replay = service.replay(run_id)
+    assert replay["live_events"], "live events must be exposed for reconstruction"
+    by_step: dict[int, list[dict]] = {}
+    for event in replay["live_events"]:
+        by_step.setdefault(int(event["at_step"]), []).append(event)
+
+    world = world_from_state(replay["initial_state"])
+    for step in replay["steps"]:
+        world.apply(Action.parse(step["action"]))
+        # The step snapshot was persisted before the between-tick injection, so
+        # compare first, then apply any live events recorded at this step.
+        assert world.state_hash() == step["state"]["state_hash"], f"step {step['step']} diverged"
+        for event in by_step.get(step["step"], []):
+            world.inject({k: v for k, v in event.items() if k not in {"at_step", "source"}})
+
+    assert replay["live_events"][0]["at_step"] == 5
+
+
 def test_same_seed_and_agent_reproduce_identical_initial_state(service: RunService):
     first = service.create_run(
         {"scenario_id": "city-logistics/rush-hour", "seed": 23, "agent": {"type": "builtin", "id": "city-greedy"}}
