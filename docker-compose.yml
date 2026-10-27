@@ -1,0 +1,16 @@
+services:
+  simworld:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+    environment:
+      SIMWORLD_ENV: production
+      SIMWORLD_AGENT_ALLOW_LOOPBACK: "false"
+      # Optional: reach an Ollama instance running on the host.
+      SIMWORLD_LLM_BASE_URL: http://host.docker.internal:11434/v1
+      SIMWORLD_LLM_MODEL: qwen2.5:1.5b-instruct
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped

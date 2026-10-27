@@ -1,0 +1,949 @@
+{
+  "run_id": "e34c9c55b1e5",
+  "model": "qwen2.5:1.5b-instruct",
+  "base_url": "http://127.0.0.1:11434/v1",
+  "scenario_id": "city-logistics/standard",
+  "seed": 7,
+  "status": "finished",
+  "terminal_reason": "all_delivered",
+  "steps": 75,
+  "score": 73.57,
+  "components": {
+    "completion": 1.0,
+    "on_time": 0.4286,
+    "fuel_efficiency": 0.0,
+    "compliance": 1.0,
+    "reliability": 1.0
+  },
+  "metrics": {
+    "packages_total": 7,
+    "packages_delivered": 7,
+    "packages_on_time": 3,
+    "packages_late": 4,
+    "completion_rate": 1.0,
+    "on_time_rate": 0.4286,
+    "fuel_consumed_l": 10.065,
+    "invalid_actions": 0,
+    "agent_latency_ms": 1693.46,
+    "agent_errors": 0,
+    "agent_fallbacks": 0,
+    "recovery_steps": 21
+  },
+  "failures": [
+    "4 package(s) delivered after their deadline."
+  ],
+  "decisions": [
+    {
+      "step": 1,
+      "action": {
+        "type": "pickup",
+        "package_ids": [
+          "PKG-01",
+          "PKG-02"
+        ]
+      },
+      "reasoning": "Earliest deadlines are 64 and 87 minutes, respectively, and both can be delivered from the depot.",
+      "latency_ms": 22634.59,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 2,
+      "action": {
+        "type": "pickup",
+        "package_ids": [
+          "PKG-03"
+        ]
+      },
+      "reasoning": "The package with the earliest deadline is at node 2, and it can be picked up from node 0.",
+      "latency_ms": 7661.41,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 3,
+      "action": {
+        "type": "move",
+        "target": "0,1"
+      },
+      "reasoning": "Model target PKG-01 ? North Docks. Move to the next hop to deliver the package with the earliest deadline.",
+      "latency_ms": 10372.76,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 4,
+      "action": {
+        "type": "move",
+        "target": "0,2"
+      },
+      "reasoning": "Following the model-selected target PKG-01 toward 1,3.",
+      "latency_ms": 0.15,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 5,
+      "action": {
+        "type": "move",
+        "target": "0,3"
+      },
+      "reasoning": "Following the model-selected target PKG-01 toward 1,3.",
+      "latency_ms": 0.07,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 6,
+      "action": {
+        "type": "move",
+        "target": "1,3"
+      },
+      "reasoning": "Following the model-selected target PKG-01 toward 1,3.",
+      "latency_ms": 0.28,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 7,
+      "action": {
+        "type": "deliver",
+        "package_id": "PKG-01"
+      },
+      "reasoning": "At North Docks; delivering PKG-01 due at t+64 min.",
+      "latency_ms": 0.12,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 8,
+      "action": {
+        "type": "move",
+        "target": "1,2"
+      },
+      "reasoning": "Model target PKG-02 ? Harbor Market. Move to the next hop to deliver the package with the earliest deadline.",
+      "latency_ms": 7499.05,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 9,
+      "action": {
+        "type": "move",
+        "target": "1,1"
+      },
+      "reasoning": "Following the model-selected target PKG-02 toward 6,1.",
+      "latency_ms": 0.24,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 10,
+      "action": {
+        "type": "move",
+        "target": "2,1"
+      },
+      "reasoning": "Following the model-selected target PKG-02 toward 6,1.",
+      "latency_ms": 0.17,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 11,
+      "action": {
+        "type": "move",
+        "target": "3,1"
+      },
+      "reasoning": "Following the model-selected target PKG-02 toward 6,1.",
+      "latency_ms": 0.24,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 12,
+      "action": {
+        "type": "move",
+        "target": "4,1"
+      },
+      "reasoning": "Following the model-selected target PKG-02 toward 6,1.",
+      "latency_ms": 0.1,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 13,
+      "action": {
+        "type": "move",
+        "target": "5,1"
+      },
+      "reasoning": "Following the model-selected target PKG-02 toward 6,1.",
+      "latency_ms": 0.09,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 14,
+      "action": {
+        "type": "move",
+        "target": "6,1"
+      },
+      "reasoning": "Following the model-selected target PKG-02 toward 6,1.",
+      "latency_ms": 0.1,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 15,
+      "action": {
+        "type": "deliver",
+        "package_id": "PKG-02"
+      },
+      "reasoning": "At Harbor Market; delivering PKG-02 due at t+87 min.",
+      "latency_ms": 0.03,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 16,
+      "action": {
+        "type": "move",
+        "target": "5,1"
+      },
+      "reasoning": "Model target PKG-03 ? Old Town Clinic. Move to the next hop to deliver the package with the earliest deadline.",
+      "latency_ms": 5763.72,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 17,
+      "action": {
+        "type": "move",
+        "target": "4,1"
+      },
+      "reasoning": "Following the model-selected target PKG-03 toward 2,6.",
+      "latency_ms": 0.26,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 18,
+      "action": {
+        "type": "move",
+        "target": "3,1"
+      },
+      "reasoning": "Fuel guard: proactively refuelling at 3,3 before continuing.",
+      "latency_ms": 0.38,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 19,
+      "action": {
+        "type": "move",
+        "target": "3,2"
+      },
+      "reasoning": "Fuel guard: proactively refuelling at 3,3 before continuing.",
+      "latency_ms": 0.39,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 20,
+      "action": {
+        "type": "move",
+        "target": "3,3"
+      },
+      "reasoning": "Fuel guard: proactively refuelling at 3,3 before continuing.",
+      "latency_ms": 0.43,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 21,
+      "action": {
+        "type": "refuel",
+        "amount": 5.0
+      },
+      "reasoning": "Fuel guard: halftank or less while at a station.",
+      "latency_ms": 0.02,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 22,
+      "action": {
+        "type": "move",
+        "target": "2,3"
+      },
+      "reasoning": "Model target PKG-03 ? Old Town Clinic. Move to the next hop to deliver package PKG-03.",
+      "latency_ms": 5909.04,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 23,
+      "action": {
+        "type": "move",
+        "target": "2,4"
+      },
+      "reasoning": "Following the model-selected target PKG-03 toward 2,6.",
+      "latency_ms": 0.09,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 24,
+      "action": {
+        "type": "move",
+        "target": "2,5"
+      },
+      "reasoning": "Following the model-selected target PKG-03 toward 2,6.",
+      "latency_ms": 0.05,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 25,
+      "action": {
+        "type": "move",
+        "target": "2,6"
+      },
+      "reasoning": "Following the model-selected target PKG-03 toward 2,6.",
+      "latency_ms": 0.04,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 26,
+      "action": {
+        "type": "deliver",
+        "package_id": "PKG-03"
+      },
+      "reasoning": "At Old Town Clinic; delivering PKG-03 due at t+82 min.",
+      "latency_ms": 0.02,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 27,
+      "action": {
+        "type": "move",
+        "target": "1,6"
+      },
+      "reasoning": "Van is empty; returning to the depot for the next batch.",
+      "latency_ms": 0.23,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 28,
+      "action": {
+        "type": "move",
+        "target": "0,6"
+      },
+      "reasoning": "Following the model-selected target depot toward 0,0.",
+      "latency_ms": 0.59,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 29,
+      "action": {
+        "type": "move",
+        "target": "0,5"
+      },
+      "reasoning": "Following the model-selected target depot toward 0,0.",
+      "latency_ms": 0.41,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 30,
+      "action": {
+        "type": "move",
+        "target": "0,4"
+      },
+      "reasoning": "Following the model-selected target depot toward 0,0.",
+      "latency_ms": 0.38,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 31,
+      "action": {
+        "type": "move",
+        "target": "0,3"
+      },
+      "reasoning": "Following the model-selected target depot toward 0,0.",
+      "latency_ms": 0.2,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 32,
+      "action": {
+        "type": "move",
+        "target": "0,2"
+      },
+      "reasoning": "Following the model-selected target depot toward 0,0.",
+      "latency_ms": 0.11,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 33,
+      "action": {
+        "type": "move",
+        "target": "0,1"
+      },
+      "reasoning": "Following the model-selected target depot toward 0,0.",
+      "latency_ms": 0.2,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 34,
+      "action": {
+        "type": "move",
+        "target": "0,0"
+      },
+      "reasoning": "Following the model-selected target depot toward 0,0.",
+      "latency_ms": 0.04,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 35,
+      "action": {
+        "type": "pickup",
+        "package_ids": [
+          "PKG-04",
+          "PKG-05"
+        ]
+      },
+      "reasoning": "Earliest deadlines are 82 and 89 minutes, respectively, and both packages are at the depot.",
+      "latency_ms": 12785.11,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 36,
+      "action": {
+        "type": "pickup",
+        "package_ids": [
+          "PKG-06"
+        ]
+      },
+      "reasoning": "The package with the earliest deadline is at the depot, and it can be picked up immediately.",
+      "latency_ms": 9456.8,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 37,
+      "action": {
+        "type": "move",
+        "target": "0,1"
+      },
+      "reasoning": "Model target PKG-04 ? East Recycling. Move to the next hop to deliver the package with the earliest deadline.",
+      "latency_ms": 5349.74,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 38,
+      "action": {
+        "type": "move",
+        "target": "0,2"
+      },
+      "reasoning": "Following the model-selected target PKG-04 toward 7,7.",
+      "latency_ms": 0.26,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 39,
+      "action": {
+        "type": "move",
+        "target": "0,3"
+      },
+      "reasoning": "Following the model-selected target PKG-04 toward 7,7.",
+      "latency_ms": 0.29,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 40,
+      "action": {
+        "type": "move",
+        "target": "0,4"
+      },
+      "reasoning": "Following the model-selected target PKG-04 toward 7,7.",
+      "latency_ms": 0.34,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 41,
+      "action": {
+        "type": "move",
+        "target": "0,5"
+      },
+      "reasoning": "Following the model-selected target PKG-04 toward 7,7.",
+      "latency_ms": 0.55,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 42,
+      "action": {
+        "type": "move",
+        "target": "0,6"
+      },
+      "reasoning": "Following the model-selected target PKG-04 toward 7,7.",
+      "latency_ms": 0.26,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 43,
+      "action": {
+        "type": "move",
+        "target": "0,7"
+      },
+      "reasoning": "Following the model-selected target PKG-04 toward 7,7.",
+      "latency_ms": 0.18,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 44,
+      "action": {
+        "type": "move",
+        "target": "1,7"
+      },
+      "reasoning": "Following the model-selected target PKG-04 toward 7,7.",
+      "latency_ms": 0.16,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 45,
+      "action": {
+        "type": "move",
+        "target": "2,7"
+      },
+      "reasoning": "Following the model-selected target PKG-04 toward 7,7.",
+      "latency_ms": 0.48,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 46,
+      "action": {
+        "type": "move",
+        "target": "3,7"
+      },
+      "reasoning": "Following the model-selected target PKG-04 toward 7,7.",
+      "latency_ms": 0.22,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 47,
+      "action": {
+        "type": "move",
+        "target": "4,7"
+      },
+      "reasoning": "Following the model-selected target PKG-04 toward 7,7.",
+      "latency_ms": 0.16,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 48,
+      "action": {
+        "type": "move",
+        "target": "5,7"
+      },
+      "reasoning": "Following the model-selected target PKG-04 toward 7,7.",
+      "latency_ms": 0.17,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 49,
+      "action": {
+        "type": "deliver",
+        "package_id": "PKG-05"
+      },
+      "reasoning": "At South Depot Annex; delivering PKG-05 due at t+89 min.",
+      "latency_ms": 0.05,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 50,
+      "action": {
+        "type": "move",
+        "target": "6,7"
+      },
+      "reasoning": "Model target PKG-04 ? East Recycling. The package with the earliest deadline, PKG-06, is at node 4,2. Moving to node 6,7 will deliver it first.",
+      "latency_ms": 9859.3,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 51,
+      "action": {
+        "type": "move",
+        "target": "7,7"
+      },
+      "reasoning": "Following the model-selected target PKG-04 toward 7,7.",
+      "latency_ms": 0.18,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 52,
+      "action": {
+        "type": "deliver",
+        "package_id": "PKG-04"
+      },
+      "reasoning": "At East Recycling; delivering PKG-04 due at t+82 min.",
+      "latency_ms": 0.1,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 53,
+      "action": {
+        "type": "move",
+        "target": "6,7"
+      },
+      "reasoning": "Model target PKG-06 ? Civic Tower. Move to the next hop to deliver the package with the earliest deadline.",
+      "latency_ms": 10194.88,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 54,
+      "action": {
+        "type": "move",
+        "target": "6,6"
+      },
+      "reasoning": "Fuel guard: proactively refuelling at 6,6 before continuing.",
+      "latency_ms": 0.59,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 55,
+      "action": {
+        "type": "refuel",
+        "amount": 5.0
+      },
+      "reasoning": "Fuel guard: halftank or less while at a station.",
+      "latency_ms": 0.03,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 56,
+      "action": {
+        "type": "move",
+        "target": "5,6"
+      },
+      "reasoning": "Model target PKG-06 ? Civic Tower. Move to the next hop to deliver the package with the earliest deadline.",
+      "latency_ms": 6843.14,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 57,
+      "action": {
+        "type": "move",
+        "target": "5,5"
+      },
+      "reasoning": "Following the model-selected target PKG-06 toward 4,2.",
+      "latency_ms": 0.48,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 58,
+      "action": {
+        "type": "move",
+        "target": "4,5"
+      },
+      "reasoning": "Following the model-selected target PKG-06 toward 4,2.",
+      "latency_ms": 0.21,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 59,
+      "action": {
+        "type": "move",
+        "target": "4,4"
+      },
+      "reasoning": "Following the model-selected target PKG-06 toward 4,2.",
+      "latency_ms": 0.23,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 60,
+      "action": {
+        "type": "move",
+        "target": "4,3"
+      },
+      "reasoning": "Following the model-selected target PKG-06 toward 4,2.",
+      "latency_ms": 0.1,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 61,
+      "action": {
+        "type": "move",
+        "target": "4,2"
+      },
+      "reasoning": "Following the model-selected target PKG-06 toward 4,2.",
+      "latency_ms": 0.07,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 62,
+      "action": {
+        "type": "deliver",
+        "package_id": "PKG-06"
+      },
+      "reasoning": "At Civic Tower; delivering PKG-06 due at t+86 min.",
+      "latency_ms": 0.19,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 63,
+      "action": {
+        "type": "move",
+        "target": "3,2"
+      },
+      "reasoning": "Van is empty; returning to the depot for the next batch.",
+      "latency_ms": 0.75,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 64,
+      "action": {
+        "type": "move",
+        "target": "3,1"
+      },
+      "reasoning": "Following the model-selected target depot toward 0,0.",
+      "latency_ms": 0.56,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 65,
+      "action": {
+        "type": "move",
+        "target": "2,1"
+      },
+      "reasoning": "Following the model-selected target depot toward 0,0.",
+      "latency_ms": 0.35,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 66,
+      "action": {
+        "type": "move",
+        "target": "1,1"
+      },
+      "reasoning": "Following the model-selected target depot toward 0,0.",
+      "latency_ms": 0.21,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 67,
+      "action": {
+        "type": "move",
+        "target": "0,1"
+      },
+      "reasoning": "Following the model-selected target depot toward 0,0.",
+      "latency_ms": 0.08,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 68,
+      "action": {
+        "type": "move",
+        "target": "0,0"
+      },
+      "reasoning": "Following the model-selected target depot toward 0,0.",
+      "latency_ms": 0.05,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 69,
+      "action": {
+        "type": "pickup",
+        "package_ids": [
+          "PKG-07"
+        ]
+      },
+      "reasoning": "The package with the earliest deadline is at the depot, so it should be picked up first.",
+      "latency_ms": 6346.95,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 70,
+      "action": {
+        "type": "move",
+        "target": "0,1"
+      },
+      "reasoning": "Model target PKG-07 ? West School. Move one hop east to deliver the package with the earliest deadline.",
+      "latency_ms": 6320.18,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 71,
+      "action": {
+        "type": "move",
+        "target": "0,2"
+      },
+      "reasoning": "Following the model-selected target PKG-07 toward 0,5.",
+      "latency_ms": 0.13,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 72,
+      "action": {
+        "type": "move",
+        "target": "0,3"
+      },
+      "reasoning": "Following the model-selected target PKG-07 toward 0,5.",
+      "latency_ms": 0.1,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 73,
+      "action": {
+        "type": "move",
+        "target": "0,4"
+      },
+      "reasoning": "Following the model-selected target PKG-07 toward 0,5.",
+      "latency_ms": 0.08,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 74,
+      "action": {
+        "type": "move",
+        "target": "0,5"
+      },
+      "reasoning": "Following the model-selected target PKG-07 toward 0,5.",
+      "latency_ms": 0.06,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    },
+    {
+      "step": 75,
+      "action": {
+        "type": "deliver",
+        "package_id": "PKG-07"
+      },
+      "reasoning": "At West School; delivering PKG-07 due at t+90 min.",
+      "latency_ms": 0.02,
+      "valid": true,
+      "fallback": false,
+      "error": null
+    }
+  ]
+}
